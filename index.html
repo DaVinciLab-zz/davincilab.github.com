@@ -1,90 +1,107 @@
-<!doctype html>
-<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
-<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
-  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="javascripts/script.js"></script>
-
-  <title>Davincilab.github.com</title>
-  <meta name="description" content="DaVinci Lab">
-
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
+    <title>Three.js - Brain Fiber Tractography Task</title>
+    <link rel=stylesheet href="css/index.css"/>
 </head>
-
 <body>
 
-  <div class="wrapper">
-    <header>
-      <h1 class="title">Davincilab.github.com</h1>
-    </header>
-    <div id="container">
-      <p class="tagline">DaVinci Lab</p>
-      <div id="main" role="main">
-        <div class="download-bar">
-        <div class="inner">
-          <a href="https://github.com/DaVinciLab" class="code">View Davincilab.github.com on GitHub</a>
-        </div>
-        <span class="blc"></span><span class="trc"></span>
-        </div>
-        <article class="markdown-body">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<div class="bigTitle">Brain Fiber Tractography Task</div>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<hr/>
+&bull; <a class="toc" href="#Training">Training</a>
+&bull; <a class="toc" href="#FA">FA tractography Task</a>
+&bull; <a class="toc" href="#Tumor area Task">Tumor area Task</a>
+&bull; <a class="toc" href="#Lesion Area task">Lesion Area task</a>
+&bull; <a class="toc" href="#Tube Orientation Task">Tube Orientation Task</a>
+&bull; <a class="toc" href="#Same Bundle Task">Same Bundle Task</a>
+<hr/>
+<br/>
+<br/>
+<div class="fancy">
+    <a name="Training"></a>
+    <a href="brainTractography_Training.html" target="_blank">
+        <img src="html-images/Training.png" class="superImage" />
+        <br/>Training</a>
+    <p class ="superText"> Here, participants will be shown a color-encoded 3D brain DMRI model that are consisted of
+        5 representative fiber bundles, which are corpus callosum (CC[red color bundle], interhemispheric fibers), cingulum bundles CG[Green color bundle], (ventral-dorsal oriented),
+        corticospinal tract (CST[blue color bundle], cranial-caudal oriented), ILF[Cyan] (interior longitudinal
+        occipitotemporal fasciculus, anterior to posterior), and IFO[yellow](inferior frontaloccipital fasciculus, anterior to posterior to lateral)
+    </p>
+</div>
+<div class="fancy">
+    <a name="FA"></a>
+    <a href="brainTractography_FA_task.html" target="_blank">
+        <img src="html-images/FA.png" class="superImage" />
+        <br/>FA tractography Task</a>
+    <p class ="superText"> In this task, participants will be shown two boxes embedded in a FA color-encoded 3D brain DMRI model.
+        The FA color map is shown on the right: the redder the color, the higher the FA value. The two boxes give the participants
+        hits for comparison the FA value or average FA value. Participants are asked to encode FA value information in the drawing
+        for easily comparing the FA or average FA value in certain areas and they are also told the boxes are located in one of the
+        five bundles (dataset information). We call this a local visualization task, because participants just need to examine only
+        the tubes around the certain area (box).
+        <br/>Thus, we just need to offer one fiber bundle of DMRI dataset, and we randomly generate one from the five major fiber bundles dataset.
+    </p>
+</div>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<div class="fancy">
+    <a name="Tumor area Task"></a>
+    <a href="brainTractography_Tumor_Area_task.html" target="_blank">
+        <img src="html-images/tumor.png" class="superImage" />
+        <br/>Tumor area Task</a>
+    <p class ="superText"> In this task, participates will be shown a sphere embedded in a 3D brain DMRI model.
+        The sphere just serves as a hint to tell participates the tumor position. Participates are asked to encode
+        tumor position and the distance from the tumor area with the surrounding and they are also told the tumor is
+        placed randomly in the dataset. We call this a local visualization task because participants only need to
+        examine the tubes around the sphere (tumor).
+        <br/>So we randomly generate one from the 5 major fiber bundles dataset.
+    </p>
+</div>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<div class="fancy">
+    <a name="Lesion Area task"></a>
+    <a href="brainTractography_LesionArea_task.html" target="_blank">
+        <img src="html-images/lesion.png" class="superImage" />
+        <br/>Lesion Area task</a>
+    <p class ="superText"> In this task, participates will be shown a box embedded in a 3D brain DMRI model.
+        There are no tubes inside the box which represents the lesion area. The box just serves as hint to
+        help participates find the lesion area. Participates are asked to encode the position of the lesion area and
+        they are also told the lesion are located in one of the five bundles, the box is randomly located according
+        to the dataset we choose. We call this a global visualization task because participants are required to examine
+        the whole fiber bundle to find the lesion area.
+        <br/>So we randomly pick up one of the five major fiber bundles’ dataset.
+    </p>
+</div>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<div class="fancy">
+    <a name="Tube Orientation Task"></a>
+    <a href="brainTractography_Tracing_task.html" target="_blank">
+        <img src="html-images/Tracing.png" class="superImage" />
+        <br/>Tube Orientation Task</a>
+    <p class ="superText"> In this task, participate will be showed three boxes embedded in a 3D brain DMRI
+        model and with a set of yellow sphere marks textured in some endpoints of tubes. Participates are asked to
+        convey the orientation information in the drawing. The yellow spheres show the starting point, while the three
+        boxes represent the possible endpoints, those hints give the participants the goal of their encoding,
+        we gives the right answer with one box has yellow spheres. We call this a global visualization task because
+        it requires participants to visual scanning from the start point of a bundle to a series of endpoints, and
+        it also needs to compare with the neighboring information.
+        <br/>So we choose the whole brain dataset or with the combining of three or four fiber bundles.
+    </p>
+</div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<div class="fancy">
+    <a name="Same Bundle Task"></a>
+    <a href="brainTractography_SameBundleTask.html" target="_blank">
+        <img src="html-images/sameBundle.png" class="superImage" />
+        <br/>Same Bundle Task</a>
+    <p class ="superText"> In this task, participate will be showed a 3D brain DMRI model with some fiber tracts
+        marked in yellow. Participates are asked to convey the fiber bundle information in the drawing. The yellow
+        fiber bundles is possible from the same bundle. About 50% of the data are in the same bundle and 50% are not.
+        Their drawing could separate the five major fiber bundles, so that we could easy to judge the same bundle.
+        We call this a global visualization task because it requires participants to visual scanning of the whole
+        dataset to compare their similarity.
+        <br/>So we choose the whole brain dataset with the five major fiber bundles.
+    </p>
+</div>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-        </article>
-      </div>
-    </div>
-    <footer>
-      <div class="owner">
-
-      <p><a href="https://github.com/DaVinciLab" class="avatar"><img src="https://avatars1.githubusercontent.com/u/7453802?s=60" width="48" height="48"/></a>View <a href="https://github.com/DaVinciLab">DaVinciLab</a> on <a href="https://www.github.com">GitHub</a></p>
-
-      </div>
-      <div class="creds">
-        <small>This page generated using <a href="http://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
-      </div>
-    </footer>
-  </div>
-  <div class="current-section">
-    <a href="#top">Scroll to top</a>
-    <a href="https://github.com/DaVinciLab/davincilab.github.com/tarball/master" class="tar">tar</a><a href="https://github.com/DaVinciLab/davincilab.github.com/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
-    <p class="name"></p>
-  </div>
-
-  
 </body>
 </html>

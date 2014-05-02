@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>three.js DMRI brain tractography</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            font-family: Monospace;
+            background-color: #000;
+            color: #fff;
+            margin: 0px;
+            overflow: hidden;
+        }
+        #info {
+            color: #fff;
+            position: absolute;
+            top: 15px;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            display:block;
+        }
+        #info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+    </style>
+</head>
+
+<body>
+
+<script src="./js/three.js"></script>
+<script src="./js/TubePointGeometry.js"></script>
+<script src="./js/NewGeometryLoader.js"></script>
+<script src="./js/MinmaxBoxGeometry.js"></script>
+<script src="./js/BoxLoader.js"></script>
+<script src="./js/TrackballControls.js"></script>
+<script src="./js/Detector.js"></script>
+<script src="./js/stats.min.js"></script>
+
+<script>
+    if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+    var container, stats;
+
+    var camera, controls, scene, renderer;
+    var group;
+    var cross;
+
+    init();
+    animate();
+
+
+    function init() {
+
+        container = document.createElement( 'div' );
+        document.body.appendChild( container );
+        var info = document.createElement( 'div' );
+        info.style.position = 'absolute';
+        info.style.top = '15px';
+        info.style.width = '100%';
+        info.style.textAlign = 'center';
+        info.innerHTML = 'DMRI brain tractography-----FA value comparison';
+
+        container.appendChild( info );
+        camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+
+        camera.position.z = 220;
+        controls = new THREE.TrackballControls( camera );
+
+        controls.rotateSpeed = 1.0;
+        controls.zoomSpeed = 1.2;
+        controls.panSpeed = 0.8;
+
+        controls.noZoom = false;
+        controls.noPan = false;
+
+        controls.staticMoving = true;
+        controls.dynamicDampingFactor = 0.3;
+
+        controls.keys = [ 65, 83, 68 ];
+
+        controls.addEventListener( 'change', render );
+
+        // scene
+        scene = new THREE.Scene();
+
+        var light;
+        light = new THREE.PointLight();
+        light.position.set( 0, 0, 0 );
+        scene.add( light );
+
+        light = new THREE.DirectionalLight( 0xffeedd );
+        light.position.set( 0, 0, 120 );
+        scene.add( light );
+        light = new THREE.DirectionalLight( 0xffeedd );
+        light.position.set( 0, 0, -120 );
+        scene.add( light );
+        light = new THREE.DirectionalLight( 0xffeedd );
+        light.position.set( 120, 180, 0 );
+        scene.add( light );
+        light = new THREE.DirectionalLight( 0xffeedd );
+        light.position.set( -120, 0, 0 );
+        scene.add( light );
+
+        var helper = new THREE.GridHelper( 200, 10 );
+        //helper.setColors( 0x0000ff, 0x808080 );
+        helper.setColors( 0x808080, 0x808080 );
+        helper.position.y = -100;
+        scene.add( helper );
+        group = new THREE.Object3D();
+        //object
+        var manager = new THREE.LoadingManager();
+        manager.onProgress = function ( item, loaded, total ) {
+
+            console.log( item, loaded, total );
+
+        };
+        var loader = new GeometryLoader(manager );
+        loader.load( './data/single/s1_cc.data', function ( object ) {
+            //---------------------------color bar-----------------------------//
+            if(loader.minColor!== undefined && loader.maxColor!== undefined)
+            {
+                var barsquareGeometry = new THREE.Geometry();
+                barsquareGeometry.vertices.push(new THREE.Vector3(-5,  40, 0.0));
+                barsquareGeometry.vertices.push(new THREE.Vector3( 5,  40, 0.0));
+                barsquareGeometry.vertices.push(new THREE.Vector3( 5, -40, 0.0));
+                barsquareGeometry.vertices.push(new THREE.Vector3(-5, -40, 0.0));
+                barsquareGeometry.faces.push(new THREE.Face3(0, 1, 2));
+
+                barsquareGeometry.faces[0].vertexColors[0] = loader.minColor;
+                barsquareGeometry.faces[0].vertexColors[1] = loader.minColor;
+                barsquareGeometry.faces[0].vertexColors[2] = loader.maxColor;
+
+                barsquareGeometry.faces.push(new THREE.Face3(2, 3, 0));
+                barsquareGeometry.faces[1].vertexColors[0] = loader.maxColor;
+                barsquareGeometry.faces[1].vertexColors[1] = loader.maxColor;
+                barsquareGeometry.faces[1].vertexColors[2] = loader.minColor;
+                var squareMaterial = new THREE.MeshBasicMaterial({
+                    side:THREE.DoubleSide,
+                    vertexColors:THREE.VertexColors});
+
+                var squareMesh = new THREE.Mesh(barsquareGeometry, squareMaterial);
+                squareMesh.position.set(150, 0, 0);
+
+                scene.add(squareMesh);
+            }
+            object.position.x = -loader.center.x;
+            object.position.y = -loader.center.y;
+            object.position.z = -loader.center.z;
+            group.add( object );
+        } );
+
+        var manager1 = new THREE.LoadingManager();
+        manager1.onProgress = function ( item, loaded, total ) {
+
+            console.log( item, loaded, total );
+
+        };
+        var material = new THREE.MeshBasicMaterial({
+            wireframe: true,
+            color: 'yellow'
+        });
+        var loaderbox = new BoxLoader(manager1 );
+        loaderbox.load( './data/box/tumorbox_0_region_s1.data', function ( geometry ) {
+            if(geometry !== undefined)
+            {
+
+                var spritey = makeTextSprite( " 1 ",
+                        { fontsize: 12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
+                spritey.position.set(loaderbox.center.x,loaderbox.center.y ,loaderbox.center.z);
+                scene.add( spritey );
+                var mesh = new THREE.Mesh( geometry, material );
+                mesh.position.x = loaderbox.center.x;
+                mesh.position.y = loaderbox.center.y;
+                mesh.position.z = loaderbox.center.z ;
+                group.add(mesh);
+            }
+        } );
+
+        var manager2 = new THREE.LoadingManager();
+        manager2.onProgress = function ( item, loaded, total ) {
+
+            console.log( item, loaded, total );
+
+        };
+        var loaderbox2 = new BoxLoader(manager2 );
+        loaderbox2.load( './data/box/tumorbox_1_region_s1.data', function ( geometry ) {
+            if (geometry !== undefined) {
+                var mesh = new THREE.Mesh(geometry, material);
+                var pos = loaderbox2.center.clone();
+                mesh.position.x = pos.x;
+                mesh.position.y = pos.y;
+                mesh.position.z = pos.z;
+                group.add(mesh);
+                var spritey = makeTextSprite( " 2 ",
+                        { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
+                spritey.position.set(pos.x,pos.y ,pos.z );
+                scene.add( spritey );
+            }
+        });
+        scene.add(group);
+
+        //render
+        renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        container.appendChild( renderer.domElement );
+
+        stats = new Stats();
+        stats.domElement.style.position = 'absolute';
+        stats.domElement.style.top = '0px';
+        stats.domElement.style.zIndex = 100;
+        container.appendChild( stats.domElement );
+
+        window.addEventListener( 'resize', onWindowResize, false );
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        controls.handleResize();
+
+        render();
+
+    }
+
+    function makeTextSprite( message, parameters )
+    {
+        if ( parameters === undefined ) parameters = {};
+
+        var fontface = parameters.hasOwnProperty("fontface") ?
+                parameters["fontface"] : "Arial";
+
+        var fontsize = parameters.hasOwnProperty("fontsize") ?
+                parameters["fontsize"] : 12;
+
+        var borderThickness = parameters.hasOwnProperty("borderThickness") ?
+                parameters["borderThickness"] : 1;
+
+        var borderColor = parameters.hasOwnProperty("borderColor") ?
+                parameters["borderColor"] : { r:0, g:0, b:0, a:1.0 };
+
+        var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
+                parameters["backgroundColor"] : { r:255, g:255, b:255, a:1.0 };
+
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        context.font = "Bold " + fontsize + "px " + fontface;
+
+        // get size data (height depends only on font size)
+        var metrics = context.measureText( message );
+        var textWidth = metrics.width;
+
+        // background color
+        context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
+                + backgroundColor.b + "," + backgroundColor.a + ")";
+        // border color
+        context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + ","
+                + borderColor.b + "," + borderColor.a + ")";
+
+        context.lineWidth = borderThickness;
+        roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.2 + borderThickness, 2);
+        // 1.4 is extra height factor for text below baseline: g,j,p,q.
+
+        // text color
+        context.fillStyle = "rgba(255, 255, 255, 1.0)";
+
+        context.fillText( message, borderThickness, fontsize + borderThickness);
+
+        // canvas contents will be used for a texture
+        var texture = new THREE.Texture(canvas);
+        texture.needsUpdate = true;
+
+        var spriteMaterial = new THREE.SpriteMaterial(
+                { map: texture, useScreenCoordinates: false} );
+        var sprite = new THREE.Sprite( spriteMaterial );
+        sprite.scale.set(35,35,35.0);
+        return sprite;
+    }
+
+    // function for drawing rounded rectangles
+    function roundRect(ctx, x, y, w, h, r)
+    {
+        ctx.beginPath();
+        ctx.moveTo(x+r, y);
+        ctx.lineTo(x+w-r, y);
+        ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+        ctx.lineTo(x+w, y+h-r);
+        ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+        ctx.lineTo(x+r, y+h);
+        ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+        ctx.lineTo(x, y+r);
+        ctx.quadraticCurveTo(x, y, x+r, y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    }
+    //
+    function animate() {
+
+        requestAnimationFrame( animate );
+        render();
+        update();
+    }
+    function update()
+    {
+        controls.update();
+        stats.update();
+    }
+
+    function render() {
+
+        renderer.render( scene, camera );
+
+    }
+
+</script>
+
+</body>
+</html>
