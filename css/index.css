@@ -76,7 +76,11 @@ a:hover
 	color: #000;
 	text-shadow: 1px 1px 0px #aaa;
 }
-
+.BText
+{
+    color: #000;
+    font-size: 16px;
+}
 a .superImage
 {  
 	height: 148px;
@@ -115,8 +119,7 @@ a:hover .superImage
 	-o-transition: all 300ms ease-in-out;
 	-ms-transition: all 300ms ease-in-out;
 	transition: all 300ms ease-in-out;
-}  
-
+}
 .bigTitle
 {
 	font-size: 32px;
