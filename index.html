@@ -1,122 +1,51 @@
+<!DOCTYPE html>
 <html>
-<head>
-    <title>Three.js - Brain Fiber Tractography Task</title>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Brain Fiber Tractography study</title>
     <link rel=stylesheet href="css/index.css"/>
 </head>
 <body>
+<div class="bigTitle">Brain Fiber Tractography study</div>
 
-<div class="bigTitle">Brain Fiber Tractography Task</div>
+ <div class="fancy">
+     <br/>
+     <br/>
+     <br/>
+     <h2 class ="bigh2">Information</h2>
+     <h3 class ="bigh3">Title</h3>
+     <p class ="superText">DMRI information Drawing study <br />  </p>
+     <h3 class ="bigh3">Principle Investigator</h3>
+     <p >
+         UMBC&#8212;DaVinci Lab (Dr. Chen)
+     </p>
 
-<hr/>
-&bull; <a class="toc" href="#Training">Training</a>
-&bull; <a class="toc" href="#FA">FA tractography Task</a>
-&bull; <a class="toc" href="#Tumor area Task">Tumor area Task</a>
-&bull; <a class="toc" href="#Lesion Area task">Lesion Area task</a>
-&bull; <a class="toc" href="#Tube Orientation Task">Tube Orientation Task</a>
-&bull; <a class="toc" href="#Same Bundle Task">Same Bundle Task</a>
-&bull; <a class="toc" href="#Depth Task">Depth Task</a>
-<hr/>
+     <h3 class ="bigh3"> Purpose:</h3>
+     <p class ="superText"> By taking part in this study, you creative design will
+         guide us the design of visualization method. Please note that you design will be treated seriously and
+         think twice before drawing.
+     </p>
+     <h3 class ="bigh3"> Procedures</h3>
+         <p class ="superText">
+             The study includes three parts: <br />
+             <br/>
+             1. <a href="Training.html" target="_blank">Training</a>; <br />
+             2. <a href="brain_Tractography_Task.html" target="_blank">Formal experiment;</a> <br />
+             3. <a href="questionnaire.html" target="_blank">Questionnaire;</a> <br />
+         </p>
+     <br/>
+     <br/>
+     <hr/>
+     <p>Welcome. Thanks for participating in our study. </p>
+     <p>
+         You can ask questions about this research study now or any time during the study by e-mailing Yongnan Zhu at
+         <a href="mailto:yongnan@umbc.edu?Subject=Question%20again" target="_top">
+             yongnan@umbc.edu</a><br/>
+     </p>
+     <br/>
+ </div>
 <br/>
-<br/>
-<div class="fancy">
-    <a name="Training"></a>
-    <a href="brainTractography_Training.html" target="_blank">
-        <img src="html-images/Training.png" class="superImage" />
-        <br/>Training</a>
-    <p class ="superText"> Here, participants will be shown a color-encoded 3D brain DMRI model that are consisted of
-        5 representative fiber bundles, which are corpus callosum (CC[red color bundle], interhemispheric fibers), cingulum bundles CG[Green color bundle], (ventral-dorsal oriented),
-        corticospinal tract (CST[blue color bundle], cranial-caudal oriented), ILF[Cyan] (interior longitudinal
-        occipitotemporal fasciculus, anterior to posterior), and IFO[yellow](inferior frontaloccipital fasciculus, anterior to posterior to lateral)
-    </p>
-</div>
-<div class="fancy">
-    <a name="FA"></a>
-    <a href="brainTractography_FA_task.html" target="_blank">
-        <img src="html-images/FA.png" class="superImage" />
-        <br/>FA tractography Task</a>
-    <p class ="superText"> In this task, participants will be shown two boxes embedded in a FA color-encoded 3D brain DMRI model.
-        The FA color map is shown on the right: the redder the color, the higher the FA value. The two boxes give the participants
-        hits for comparison the FA value or average FA value. Participants are asked to encode FA value information in the drawing
-        for easily comparing the FA or average FA value in certain areas and they are also told the boxes are located in one of the
-        five bundles (dataset information). We call this a local visualization task, because participants just need to examine only
-        the tubes around the certain area (box).
-        <br/>Thus, we just need to offer one fiber bundle of DMRI dataset, and we randomly generate one from the five major fiber bundles dataset.
-    </p>
-</div>
 
-<div class="fancy">
-    <a name="Tumor area Task"></a>
-    <a href="brainTractography_Tumor_Area_task.html" target="_blank">
-        <img src="html-images/tumor.png" class="superImage" />
-        <br/>Tumor area Task</a>
-    <p class ="superText"> In this task, participates will be shown a sphere embedded in a 3D brain DMRI model.
-        The sphere just serves as a hint to tell participates the tumor position. Participates are asked to encode
-        tumor position and the distance from the tumor area with the surrounding and they are also told the tumor is
-        placed randomly in the dataset. We call this a local visualization task because participants only need to
-        examine the tubes around the sphere (tumor).
-        <br/>So we randomly generate one from the 5 major fiber bundles dataset.
-    </p>
-</div>
 
-<div class="fancy">
-    <a name="Lesion Area task"></a>
-    <a href="brainTractography_LesionArea_task.html" target="_blank">
-        <img src="html-images/lesion.png" class="superImage" />
-        <br/>Lesion Area task</a>
-    <p class ="superText"> In this task, participates will be shown a box embedded in a 3D brain DMRI model.
-        There are no tubes inside the box which represents the lesion area. The box just serves as hint to
-        help participates find the lesion area. Participates are asked to encode the position of the lesion area and
-        they are also told the lesion are located in one of the five bundles, the box is randomly located according
-        to the dataset we choose. We call this a global visualization task because participants are required to examine
-        the whole fiber bundle to find the lesion area.
-        <br/>So we randomly pick up one of the five major fiber bundles’ dataset.
-    </p>
-</div>
-
-<div class="fancy">
-    <a name="Tube Orientation Task"></a>
-    <a href="brainTractography_Tracing_task.html" target="_blank">
-        <img src="html-images/Tracing.png" class="superImage" />
-        <br/>Tube Orientation Task</a>
-    <p class ="superText"> In this task, participate will be showed three boxes embedded in a 3D brain DMRI
-        model and with a set of yellow sphere marks textured in some endpoints of tubes. Participates are asked to
-        convey the orientation information in the drawing. The yellow spheres show the starting point, while the three
-        boxes represent the possible endpoints, those hints give the participants the goal of their encoding,
-        we gives the right answer with one box has yellow spheres. We call this a global visualization task because
-        it requires participants to visual scanning from the start point of a bundle to a series of endpoints, and
-        it also needs to compare with the neighboring information.
-        <br/>So we choose the whole brain dataset or with the combining of three or four fiber bundles.
-    </p>
-</div>
-
-<div class="fancy">
-    <a name="Same Bundle Task"></a>
-    <a href="brainTractography_SameBundleTask.html" target="_blank">
-        <img src="html-images/sameBundle.png" class="superImage" />
-        <br/>Same Bundle Task</a>
-    <p class ="superText"> In this task, participate will be showed a 3D brain DMRI model with some fiber tracts
-        marked in yellow. Participates are asked to convey the fiber bundle information in the drawing. The yellow
-        fiber bundles is possible from the same bundle. About 50% of the data are in the same bundle and 50% are not.
-        Their drawing could separate the five major fiber bundles, so that we could easy to judge the same bundle.
-        We call this a global visualization task because it requires participants to visual scanning of the whole
-        dataset to compare their similarity.
-        <br/>So we choose the whole brain dataset with the five major fiber bundles.
-    </p>
-</div>
-
-<div class="fancy">
-    <a name="Depth Task"></a>
-    <a href="brainTractography_Depth_task.html" target="_blank">
-        <img src="html-images/depth.png" class="superImage" />
-        <br/>Same Bundle Task</a>
-    <p class ="superText"> In this task, participates will be shown a blue tube and a green tube embedded in a 3D brain
-        DMRI model, and are asked to encode depth information in the drawing. The tubes are selected at
-        random with the constraint that they do not occlude each other from sampled viewpoint.
-        The tubes serves as a hint for participates to recognize that their drawing should show depth information,
-        and as example for comparison with which tube is closer to the viewpoint. We called this a global
-        visualization task because we try to convey the depth information which is need to compare with many tubes.
-        So we just choose a full brain dataset or with the combining of three or four fiber bundles..
-    </p>
-</div>
 </body>
 </html>

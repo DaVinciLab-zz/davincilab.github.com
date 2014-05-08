@@ -126,3 +126,18 @@ a:hover .superImage
 	text-align: center;
 	text-shadow: -1px -1px 2px #fff, 1px 1px 3px #000;	
 }
+
+.bigh2
+{
+    font-size: 24px;
+    font-weight: bold;
+    color:#000;
+    text-align: left;
+}
+.bigh3
+ {
+     font-size: 20px;
+     font-weight: bold;
+     color:#000;
+     text-align: left;
+ }
