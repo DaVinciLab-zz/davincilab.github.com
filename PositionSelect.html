@@ -107,7 +107,7 @@
 <script src="./js/TrainingGeo.js"></script>
 <script src="./js/Detector.js"></script>
 <script src="./js/stats.min.js"></script>
-
+<script src="./js/dat.gui.js"></script>
 <script>
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 var container, stats;
@@ -166,16 +166,16 @@ function init() {
 
     // FLOOR
     /*
-    var floorTexture = new THREE.ImageUtils.loadTexture( './images/checkerboard.jpg' );
-    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-    floorTexture.repeat.set( 10, 10 );
-    var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
-    var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-    var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.y = -100;
-    floor.rotation.x = Math.PI / 2;
-    scene.add(floor);
-    */
+     var floorTexture = new THREE.ImageUtils.loadTexture( './images/checkerboard.jpg' );
+     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+     floorTexture.repeat.set( 10, 10 );
+     var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
+     var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+     var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+     floor.position.y = -100;
+     floor.rotation.x = Math.PI / 2;
+     scene.add(floor);
+     */
     var helper = new THREE.GridHelper( 200, 10 );
     helper.setColors( 0x808080, 0x808080 );
     helper.position.y = -100;
@@ -236,110 +236,129 @@ function init() {
             setProgressBar(loadedCount, 5);
         }
     } );
-
+    var CGGroup=new THREE.Object3D();
     var cg_loader = new GeometryLoader(manager,'green' );
     cg_loader.load( './data/combine/s3_cg.data', function ( object ) {
         if(cg_loader.center!==null&&cg_loader.bundleposition !== null)
         {
-            object.position.x = -cg_loader.center.x;
-            object.position.y = -cg_loader.center.y;
-            object.position.z = -cg_loader.center.z;
+            //object.position.x = -cg_loader.center.x;
+            //object.position.y = -cg_loader.center.y;
+            //object.position.z = -cg_loader.center.z;
             //group.add( object );
-            mainGroup.add(object);
+            CGGroup.add(object);
             var spritey = makeTextSprite(" CG ",
                     { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r:0 , g: 255, b: 0, a: 0.8} });
             //spritey.position.set(cg_loader.bundleposition.x-cg_loader.center.x, cg_loader.bundleposition.y-cg_loader.center.y,
             // cg_loader.bundleposition.z-cg_loader.center.z);
-            spritey.position.set((cg_loader.bundleposition.x-cg_loader.center.x)/4+20, (cg_loader.bundleposition.y-cg_loader.center.y)/2,
-                            cg_loader.bundleposition.z-cg_loader.center.z+20);
+            spritey.position.set((cg_loader.bundleposition.x-cg_loader.center.x)/4, (cg_loader.bundleposition.y-cg_loader.center.y)/2,
+                            cg_loader.bundleposition.z-cg_loader.center.z);
             //group.add( spritey );
-            mainGroup.add(spritey);
+            CGGroup.add(spritey);
+            CGGroup.position.x = -cg_loader.center.x;
+            CGGroup.position.y = -cg_loader.center.y;
+            CGGroup.position.z = -cg_loader.center.z;
+            mainGroup.add(CGGroup);
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
+    var CSTGroup=new THREE.Object3D();
     var cst_loader = new GeometryLoader(manager,'blue' );
     cst_loader.load( './data/combine/s3_cst.data', function ( object ) {
         if(cst_loader.center!==null&&cst_loader.bundleposition !== null) {
 
-            object.position.x = -116;
-            object.position.y = -126;
-            object.position.z = -94;
+            //object.position.x = -cst_loader.center.x;
+            //object.position.y = -cst_loader.center.y;
+            //object.position.z = -cst_loader.center.z;
 
-            mainGroup.add(object);
+            CSTGroup.add(object);
             var spritey = makeTextSprite(" CST ",
                     { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r: 0, g: 0, b: 255, a: 0.8} });
-            spritey.position.set(cst_loader.bundleposition.x-cst_loader.center.x+20, cst_loader.bundleposition.y-cst_loader.bundleposition.y-20,
-                            cst_loader.bundleposition.z-cst_loader.center.z+20);
+            spritey.position.set(cst_loader.bundleposition.x-cst_loader.center.x, cst_loader.bundleposition.y-cst_loader.bundleposition.y,
+                            cst_loader.bundleposition.z-cst_loader.center.z);
             //group.add( spritey );
-            mainGroup.add(spritey);
+            CSTGroup.add(spritey);
 
+            CSTGroup.position.x = -cst_loader.center.x;
+            CSTGroup.position.y = -cst_loader.center.y;
+            CSTGroup.position.z = -cst_loader.center.z;
+            mainGroup.add(CSTGroup);
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
-
+    var IFOGroup = new THREE.Object3D();
     var ifo_loader = new GeometryLoader(manager,'yellow' );
     ifo_loader.load( './data/combine/s3_ifo.data', function ( object ) {
         if(ifo_loader.center!==null&&ifo_loader.bundleposition !== null) {
-            object.position.x = -118;
-            object.position.y = -125;
-            object.position.z = -90;
+            //object.position.x = -ifo_loader.center.x;
+            //object.position.y = -ifo_loader.center.y;
+            //object.position.z = -ifo_loader.center.z;
             //group.add( object );
-            mainGroup.add(object);
+            IFOGroup.add(object);
             var spritey = makeTextSprite(" IFO ",
                     { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r: 255, g: 255, b: 0, a: 0.8} });
-            spritey.position.set(ifo_loader.bundleposition.x-ifo_loader.center.x-20, ifo_loader.bundleposition.y-ifo_loader.center.y,
+            spritey.position.set(ifo_loader.bundleposition.x-ifo_loader.center.x, ifo_loader.bundleposition.y-ifo_loader.center.y,
                             ifo_loader.bundleposition.z-ifo_loader.center.z);
             //group.add( spritey );
-            mainGroup.add(spritey);
+            IFOGroup.add(spritey);
+
+            IFOGroup.position.x = -ifo_loader.center.x;
+            IFOGroup.position.y = -ifo_loader.center.y;
+            IFOGroup.position.z = -ifo_loader.center.z;
+
+            mainGroup.add(IFOGroup);
 
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
-
+    var ILFGroup = new THREE.Object3D();
     var ilf_loader = new GeometryLoader(manager,'other' );
     ilf_loader.load( './data/combine/s3_ilf.data', function ( object ) {
         if(ilf_loader.center!==null&&ilf_loader.bundleposition !== null) {
-            object.position.x = -118;
-            object.position.y = -123;
-            object.position.z = -90;
+            //object.position.x = -ilf_loader.center.x;
+            //object.position.y = -ilf_loader.center.y;
+            //object.position.z = -ilf_loader.center.z;
             //group.add( object );
-            mainGroup.add(object);
+            ILFGroup.add(object);
             var spritey = makeTextSprite(" ILF ",
                     { fontsize: 12, borderColor: {r: 255, g: 255, b:255, a: 1.0}, backgroundColor: {r: 0, g:255, b: 255, a: 0.8} });
-            spritey.position.set(ilf_loader.center.x-ilf_loader.center.x-20, ilf_loader.center.y-ilf_loader.center.y,
+            spritey.position.set(ilf_loader.center.x-ilf_loader.center.x, ilf_loader.center.y-ilf_loader.center.y,
                             ilf_loader.center.z-ilf_loader.center.z);
             //group.add( spritey );
-            mainGroup.add(spritey);
+            ILFGroup.add(spritey);
 
+            ILFGroup.position.x = -ilf_loader.center.x;
+            ILFGroup.position.y = -ilf_loader.center.y;
+            ILFGroup.position.z = -ilf_loader.center.z;
+            mainGroup.add(ILFGroup);
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
     //scene.add(group);
     group.add(mainGroup);
-    /*
+
     //GUI
     var controls =
     {
         domListen : true,
-        cstposx : -0,
-        cstposy : 0,
-        cstposz : -0,
+        cstposx : 122.8,
+        cstposy : 157.97,
+        cstposz : 78.23,
 
-        ifoposx : 0,
-        ifoposy : 0,
-        ifoposz : 0,
+        ifoposx : 86.87,
+        ifoposy : 127.27,
+        ifoposz : 68.87,
 
-        ilfposx : 0,
-        ilfposy : 0,
-        ilfposz : 0,
+        ilfposx : 112.00,
+        ilfposy : 157.97,
+        ilfposz : 78.23,
 
-        cgposx : 0,
-        cgposy : 0,
-        cgposz : 0
+        cgposx : 116.98,
+        cgposy : 122.99,
+        cgposz : 52.53
 
     };
     var gui = new dat.GUI();
@@ -361,73 +380,73 @@ function init() {
 
     });
     var box1Folder = gui.addFolder('CG');
-    box1Folder.add(controls, 'cgposx', -128, 128).onChange(
+    box1Folder.add(controls, 'cgposx', -256, 256).onChange(
             function(value)
             {
                 CGGroup.position.x = value;
             });
-    box1Folder.add(controls, 'cgposy', -128, 128).onChange(
+    box1Folder.add(controls, 'cgposy', -256, 256).onChange(
             function(value)
             {
                 CGGroup.position.y = value;
             });
-    box1Folder.add(controls, 'cgposz', -128, 128).onChange(
+    box1Folder.add(controls, 'cgposz', -256, 256).onChange(
             function(value)
             {
                 CGGroup.position.z = value;
             });
 
     var box2Folder = gui.addFolder('CST');
-    box2Folder.add(controls, 'cstposx', -128, 128).onChange(
+    box2Folder.add(controls, 'cstposx', -256, 256).onChange(
             function(value)
             {
                 CSTGroup.position.x = value;
             });
-    box2Folder.add(controls, 'cstposy', -128, 128).onChange(
+    box2Folder.add(controls, 'cstposy', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.y = value;
+                CSTGroup.position.y = value;
             });
-    box2Folder.add(controls, 'cstposz', -128, 128).onChange(
+    box2Folder.add(controls, 'cstposz', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.z = value;
+                CSTGroup.position.z = value;
             });
 
     var box3Folder = gui.addFolder('ILF');
-    box3Folder.add(controls, 'ilfposx', -128, 128).onChange(
+    box3Folder.add(controls, 'ilfposx', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.x = value;
+                ILFGroup.position.x = value;
             });
-    box3Folder.add(controls, 'ilfposy', -128, 128).onChange(
+    box3Folder.add(controls, 'ilfposy', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.y = value;
+                ILFGroup.position.y = value;
             });
-    box3Folder.add(controls, 'ilfposz', -128, 128).onChange(
+    box3Folder.add(controls, 'ilfposz', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.z = value;
+                ILFGroup.position.z = value;
             });
 
     var box4Folder = gui.addFolder('IFO');
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
+    box4Folder.add(controls, 'ifoposx', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.x = value;
+                IFOGroup.position.x = value;
             });
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
+    box4Folder.add(controls, 'ifoposx', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.y = value;
+                IFOGroup.position.y = value;
             });
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
+    box4Folder.add(controls, 'ifoposx', -256, 256).onChange(
             function(value)
             {
-                BoxGroup2.position.z = value;
+                IFOGroup.position.z = value;
             });
-     */
+
     //render
     renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize( window.innerWidth, window.innerHeight );

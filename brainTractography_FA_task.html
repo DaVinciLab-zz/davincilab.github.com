@@ -215,23 +215,34 @@ function init() {
     //fiberBundle.push('ifo');
     //fiberBundle.push('ilf');
     //var modelPath = './data/single/s1_';
-    var modelPath = './data/single/s1_cc.data';
-    var boxPath1 = './data/FA/';
-    var boxPath2 = './data/FA/';
-    //var post ='.data';
-    var postBox1='/tumorbox_0_region_s1.data';
-    var postBox2='/tumorbox_1_region_s1.data';
-    //var bundleType = fiberBundle[THREE.Math.randInt(0,1)];// if has cg (0,4)
-    var bundleType = 'cc';
-    if(bundleType != null)
+    var boxPath1 = './data/FA/cc/tumorbox_0_region_s1.data';
+    var boxPath2 = './data/FA/cc/tumorbox_1_region_s1.data';
+    var type = THREE.Math.randInt(0,3);// if has cg (0,4)
+    var boxPos1= new THREE.Vector3();
+    var boxPos2= new THREE.Vector3();
+    if( type === 0 )//CC
     {
-        //modelPath += bundleType;
-        //modelPath += post;
-        boxPath1 +=bundleType;
-        boxPath1 += postBox1;
-        boxPath2 +=bundleType;
-        boxPath2 += postBox2;
+        boxPos1.set(-9,20,13);
+        boxPos2.set(19,24,5);
     }
+    else if( type === 1 )//CST
+    {
+        boxPos1.set(10,19,-32);
+        boxPos2.set(30,8,10);
+    }
+    else if( type === 2)  //IFO
+    {
+        boxPos1.set(-26,-18,-7);
+        boxPos2.set(-29,36,-4);
+    }
+    else        //ILF
+    {
+        boxPos1.set(53,8,2);
+        boxPos2.set(40,50,8);
+    }
+    //boxPos1.set(13,16,30);
+    //boxPos2.set(-1,22,27);
+
     //object
     var manager = new THREE.LoadingManager();
     manager.onProgress = function ( item, loaded, total ) {
@@ -240,7 +251,7 @@ function init() {
 
     };
     var loader = new GeometryLoader(manager );
-    loader.load( modelPath, function ( object ) {
+    loader.load( "./data/combine/s3.data", function ( object ) {
         //---------------------------color bar-----------------------------//
         if(object !== undefined && loader.center.center !== null)
         {
@@ -310,7 +321,8 @@ function init() {
     } );
 
 
-
+    var BoxGroup1 = new THREE.Object3D();
+    var BoxGroup2 = new THREE.Object3D();
     var loaderbox = new BoxLoader(manager );
     loaderbox.load( boxPath1, function ( geometry ) {
         if(geometry !== undefined&& loaderbox.center !==null)
@@ -350,21 +362,23 @@ function init() {
                 }
                 var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
                 var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                line.position.x = loaderbox.center.x;
-                line.position.y = loaderbox.center.y;
-                line.position.z = loaderbox.center.z ;
-                mainGroup.add( line );
+                //line.position.x = loaderbox.center.x;
+                //line.position.y = loaderbox.center.y;
+                //line.position.z = loaderbox.center.z ;
+                BoxGroup1.add( line );
             }
-            mesh.position.x = loaderbox.center.x;
-            mesh.position.y = loaderbox.center.y;
-            mesh.position.z = loaderbox.center.z ;
+           // mesh.position.x = loaderbox.center.x;
+            //mesh.position.y = loaderbox.center.y;
+            //mesh.position.z = loaderbox.center.z ;
             //group.add(mesh);
-            mainGroup.add(mesh);
+            BoxGroup1.add(mesh);
             var spritey = makeTextSprite( " 1 ",
                     { fontsize: 12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-            spritey.position.set(loaderbox.center.x ,loaderbox.center.y ,loaderbox.center.z + 17);
+            //spritey.position.set(loaderbox.center.x ,loaderbox.center.y ,loaderbox.center.z + 17);
             //group.add( spritey );
-            mainGroup.add(spritey);
+            BoxGroup1.position = boxPos1;
+            BoxGroup1.add(spritey);
+            mainGroup.add(BoxGroup1);
             loadedCount++;
             setProgressBar(loadedCount, 3);
         }
@@ -382,11 +396,11 @@ function init() {
             });
             var mesh = new THREE.Mesh( geometry, material );
             var pos = loaderbox2.center.clone();
-            mesh.position.x = pos.x;
-            mesh.position.y = pos.y;
-            mesh.position.z = pos.z;
+            //mesh.position.x = pos.x;
+            //mesh.position.y = pos.y;
+            //mesh.position.z = pos.z;
             //group.add(mesh);
-            mainGroup.add(mesh);
+            BoxGroup2.add(mesh);
             {//create the wireframe
                 var verticeGeo = new THREE.Geometry();
                 var vertices =  geometry.vertices;
@@ -414,16 +428,19 @@ function init() {
                 }
                 var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
                 var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                line.position.x = loaderbox2.center.x;
-                line.position.y = loaderbox2.center.y;
-                line.position.z = loaderbox2.center.z ;
-                mainGroup.add( line );
+                //line.position.x = loaderbox2.center.x;
+                //line.position.y = loaderbox2.center.y;
+                //line.position.z = loaderbox2.center.z ;
+                BoxGroup2.add( line );
             }
             var spritey = makeTextSprite( " 2 ",
                     { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-            spritey.position.set(pos.x,pos.y ,pos.z );
+            //spritey.position.set(pos.x,pos.y ,pos.z );
             //group.add( spritey );
-            mainGroup.add(spritey);
+
+            BoxGroup2.position = boxPos2;
+            BoxGroup2.add(spritey);
+            mainGroup.add(BoxGroup2);
             loadedCount++;
             setProgressBar(loadedCount, 3);
         }
@@ -452,8 +469,6 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
-
-    controls.handleResize();
 
     render();
 
@@ -560,7 +575,7 @@ function onMouseWheel( event ) {
 
     }
 
-    zoomValue += delta /10;
+    zoomValue += delta ;
 
 }
 function makeFontTexture(message, parameters)

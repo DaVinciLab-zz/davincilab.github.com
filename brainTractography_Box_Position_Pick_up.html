@@ -103,19 +103,22 @@
     </center>
 </div>
 <script src="./js/three.js"></script>
-<script src="./js/SameBundleTubePointGeometry.js"></script>
-<script src="./js/TrainingGeo.js"></script>
+<script src="./js/TubePointGeometry.js"></script>
+<script src="./js/NewGeometryLoader.js"></script>
+<script src="./js/MinmaxBoxGeometry.js"></script>
+<script src="./js/BoxLoader.js"></script>
 <script src="./js/Detector.js"></script>
-<script src="./js/stats.min.js"></script>
+<script src="./js/dat.gui.js"></script>
 
 <script>
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-var container, stats;
+var container;
 
-var camera, scene, renderer;
+var camera,  scene, renderer;
 var group;
 var mainGroup;
 var loadedCount =0;
+
 //for trackball
 var mouseDown = false;
 var rotateStartP = new THREE.Vector3(0,0,1);
@@ -123,9 +126,9 @@ var rotateEndP = new THREE.Vector3(0,0,1);
 var quater;
 var zoomValue =0;
 
-var x=0;
-var y=0;
-var z=0;
+var controls;
+var BoxGroup1 = new THREE.Object3D();
+var BoxGroup2 = new THREE.Object3D();
 
 init();
 animate();
@@ -144,10 +147,12 @@ function init() {
     info.style.top = '15px';
     info.style.width = '100%';
     info.style.textAlign = 'center';
-    info.innerHTML = 'DMRI brain tractography-----Fiber bundle information Structure(Training)';
+    info.innerHTML = 'DMRI brain tractography-----FA value comparison box position Pick up.<br/> ' +
+            'Please Check the control the model rotation and also you should adjust the correlative Box position';
 
     container.appendChild( info );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+
     camera.position.z = 220;
 
     // scene
@@ -185,7 +190,6 @@ function init() {
 
     group = new THREE.Object3D();   //scene -> group(mainGroup, plane, bar) ->mainGroup(model, box, sphere)
     mainGroup = new THREE.Object3D();
-
     function setProgressBar(loaded, total)
     {
         var bar = 250;
@@ -208,139 +212,261 @@ function init() {
 
     }
 
-    //objectvar
+    //Generate the data file
+    //var fiberBundle =[];
+    //fiberBundle.push('cc');
+    //fiberBundle.push('cg');
+    //fiberBundle.push('cst');
+    //fiberBundle.push('ifo');
+    //fiberBundle.push('ilf');
+    //var modelPath = './data/single/s1_';
+
+    var boxPath1 = './data/FA/';
+    var boxPath2 = './data/FA/';
+    //var post ='.data';
+    var postBox1='/tumorbox_0_region_s1.data';
+    var postBox2='/tumorbox_1_region_s1.data';
+    /*
+    var fiberBundle =[];
+    fiberBundle.push('cc');
+    //fiberBundle.push('cg');
+    fiberBundle.push('cst');
+    //fiberBundle.push('ifo');
+    fiberBundle.push('ilf');
+
+    var bundleType = fiberBundle[THREE.Math.randInt(0,2)];// if has cg (0,4)
+    */
+    var bundleType = 'cc';
+    if(bundleType != null)
+    {
+        boxPath1 += bundleType;
+        boxPath1 += postBox1;
+        boxPath2 += bundleType;
+        boxPath2 += postBox2;
+    }
+
+    //object
     var manager = new THREE.LoadingManager();
     manager.onProgress = function ( item, loaded, total ) {
 
         console.log( item, loaded, total );
 
     };
-
-    var cc_loader = new GeometryLoader(manager,'red' );
-    cc_loader.load( './data/combine/s3_cc.data', function ( object ) {
-        if(cc_loader.center!==null&&cc_loader.bundleposition !== null)
+    var loader = new GeometryLoader(manager );
+    loader.load( "./data/combine/s3.data", function ( object ) {
+        //---------------------------color bar-----------------------------//
+        if(object !== undefined && loader.center.center !== null)
         {
-            object.position.x = -cc_loader.center.x;
-            object.position.y = -cc_loader.center.y;
-            object.position.z = -cc_loader.center.z;
+            if(loader.minColor!== undefined && loader.maxColor!== undefined)
+            {
+                var barGroup = new THREE.Object3D();
+                //Draw Color Bar
+                var barsquareGeometry = new THREE.Geometry();
+                barsquareGeometry.vertices.push(new THREE.Vector3(-2,  40, 0.0));
+                barsquareGeometry.vertices.push(new THREE.Vector3( 2,  40, 0.0));
+                barsquareGeometry.vertices.push(new THREE.Vector3( 2, -40, 0.0));
+                barsquareGeometry.vertices.push(new THREE.Vector3(-2, -40, 0.0));
+                barsquareGeometry.faces.push(new THREE.Face3(0, 1, 2));
+
+                barsquareGeometry.faces[0].vertexColors[0] = loader.minColor;
+                barsquareGeometry.faces[0].vertexColors[1] = loader.minColor;
+                barsquareGeometry.faces[0].vertexColors[2] = loader.maxColor;
+
+                barsquareGeometry.faces.push(new THREE.Face3(2, 3, 0));
+                barsquareGeometry.faces[1].vertexColors[0] = loader.maxColor;
+                barsquareGeometry.faces[1].vertexColors[1] = loader.maxColor;
+                barsquareGeometry.faces[1].vertexColors[2] = loader.minColor;
+                var squareMaterial = new THREE.MeshBasicMaterial({
+                    side:THREE.DoubleSide,
+                    vertexColors:THREE.VertexColors});
+                var squareMesh = new THREE.Mesh(barsquareGeometry, squareMaterial);
+                barGroup.add(squareMesh);
+
+                //Draw ticks
+                for(var k=0; k <4; ++k)
+                {
+                    var tickpoint1 = new THREE.Vector3(1, -40 +(k+1)*16,0);
+                    var tickpoint2 = new THREE.Vector3(2, -40+(k+1)*16,0);
+
+                    var lineGeo = new THREE.Geometry();
+                    lineGeo.vertices.push(tickpoint1);
+                    lineGeo.vertices.push(tickpoint2);
+                    var line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial( { linewidth: 10, color: 0x000000 } ) ) ;
+                    //line.position.set(120, 0, 0);
+                    barGroup.add(line);
+                }
+                // text label
+                for(k=0; k<=5; ++k)
+                {
+                    var label = ' 0.';
+                    label +=k*2;
+                    label +=' ';
+                    if(k===5)
+                        label =' 1.0 ';
+                    var textLabel = makeTextLabel(label,
+                            { fontsize: 20, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:255, b:255, a:0.8}, fontColor:{r:0, g:0, b:0, a:1} });
+                    textLabel.position.set(2+16, -40 + k*16-4, 0);
+                    barGroup.add( textLabel );
+                }
+                barGroup.position.set(130, 0, 0);
+                group.add(barGroup);
+
+            }
+            object.position.x = -loader.center.x;
+            object.position.y = -loader.center.y;
+            object.position.z = -loader.center.z;
             //group.add( object );
             mainGroup.add(object);
-
-            var spritey = makeTextSprite( " CC ",
-                    { fontsize:12, borderColor: {r:255, g:255, b:255, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-            spritey.position.set(cc_loader.bundleposition.x-cc_loader.center.x,cc_loader.bundleposition.y-cc_loader.center.y,
-                            cc_loader.bundleposition.z-cc_loader.center.z);
-            //group.add( spritey );
-            mainGroup.add(spritey);
             loadedCount++;
-            setProgressBar(loadedCount, 5);
+            setProgressBar(loadedCount, 3);
         }
     } );
 
-    var cg_loader = new GeometryLoader(manager,'green' );
-    cg_loader.load( './data/combine/s3_cg.data', function ( object ) {
-        if(cg_loader.center!==null&&cg_loader.bundleposition !== null)
+    var loaderbox = new BoxLoader(manager );
+    loaderbox.load( boxPath1, function ( geometry ) {
+        if(geometry !== undefined&& loaderbox.center !==null)
         {
-            object.position.x = -cg_loader.center.x;
-            object.position.y = -cg_loader.center.y;
-            object.position.z = -cg_loader.center.z;
-            //group.add( object );
-            mainGroup.add(object);
-            var spritey = makeTextSprite(" CG ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r:0 , g: 255, b: 0, a: 0.8} });
-            //spritey.position.set(cg_loader.bundleposition.x-cg_loader.center.x, cg_loader.bundleposition.y-cg_loader.center.y,
-            // cg_loader.bundleposition.z-cg_loader.center.z);
-            spritey.position.set((cg_loader.bundleposition.x-cg_loader.center.x)/4+20, (cg_loader.bundleposition.y-cg_loader.center.y)/2,
-                            cg_loader.bundleposition.z-cg_loader.center.z+20);
+            var material = new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0.5,
+                color: 'silver',
+                side: THREE.BackSide
+            });
+            //var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry, [material, material1]);
+            var mesh = new THREE.Mesh( geometry, material );
+            {//create the wireframe
+                var verticeGeo = new THREE.Geometry();
+                var vertices =  geometry.vertices;
+                for(var i =0;i<4;++i)
+                {
+                    verticeGeo.vertices.push(vertices[2*i]);
+                    verticeGeo.vertices.push(vertices[2*i+1]);
+                }
+                {
+                    verticeGeo.vertices.push(vertices[0]);
+                    verticeGeo.vertices.push(vertices[5]);
+                    verticeGeo.vertices.push(vertices[1]);
+                    verticeGeo.vertices.push(vertices[4]);
+                    verticeGeo.vertices.push(vertices[2]);
+                    verticeGeo.vertices.push(vertices[7]);
+                    verticeGeo.vertices.push(vertices[3]);
+                    verticeGeo.vertices.push(vertices[6]);
+                }
+                for(i =0;i<2;++i)
+                {
+                    verticeGeo.vertices.push(vertices[i]);
+                    verticeGeo.vertices.push(vertices[i+2]);
+                    verticeGeo.vertices.push(vertices[4+i]);
+                    verticeGeo.vertices.push(vertices[4+i+2]);
+                }
+                var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
+                var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
+                /*line.position.x = loaderbox.center.x;
+                line.position.y = loaderbox.center.y;
+                line.position.z = loaderbox.center.z ;*/
+                BoxGroup1.add(line);
+            }
+            /*mesh.position.x = loaderbox.center.x;
+            mesh.position.y = loaderbox.center.y;
+            mesh.position.z = loaderbox.center.z ;*/
+            //group.add(mesh);
+            BoxGroup1.add(mesh);
+            var spritey = makeTextSprite( " 1 ",
+                    { fontsize: 12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
+            //spritey.position.set(loaderbox.center.x ,loaderbox.center.y ,loaderbox.center.z );
             //group.add( spritey );
-            mainGroup.add(spritey);
-            loadedCount++;
-            setProgressBar(loadedCount, 5);
-        }
-    } );
-    var cst_loader = new GeometryLoader(manager,'blue' );
-    cst_loader.load( './data/combine/s3_cst.data', function ( object ) {
-        if(cst_loader.center!==null&&cst_loader.bundleposition !== null) {
+            BoxGroup1.add(spritey);
 
-            object.position.x = -116;
-            object.position.y = -126;
-            object.position.z = -94;
-
-            mainGroup.add(object);
-            var spritey = makeTextSprite(" CST ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r: 0, g: 0, b: 255, a: 0.8} });
-            spritey.position.set(cst_loader.bundleposition.x-cst_loader.center.x+20, cst_loader.bundleposition.y-cst_loader.bundleposition.y-20,
-                            cst_loader.bundleposition.z-cst_loader.center.z+20);
-            //group.add( spritey );
-            mainGroup.add(spritey);
-
-            loadedCount++;
-            setProgressBar(loadedCount, 5);
-        }
-    } );
-
-    var ifo_loader = new GeometryLoader(manager,'yellow' );
-    ifo_loader.load( './data/combine/s3_ifo.data', function ( object ) {
-        if(ifo_loader.center!==null&&ifo_loader.bundleposition !== null) {
-            object.position.x = -118;
-            object.position.y = -125;
-            object.position.z = -90;
-            //group.add( object );
-            mainGroup.add(object);
-            var spritey = makeTextSprite(" IFO ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r: 255, g: 255, b: 0, a: 0.8} });
-            spritey.position.set(ifo_loader.bundleposition.x-ifo_loader.center.x-20, ifo_loader.bundleposition.y-ifo_loader.center.y,
-                            ifo_loader.bundleposition.z-ifo_loader.center.z);
-            //group.add( spritey );
-            mainGroup.add(spritey);
-
-            loadedCount++;
-            setProgressBar(loadedCount, 5);
-        }
-    } );
-
-    var ilf_loader = new GeometryLoader(manager,'other' );
-    ilf_loader.load( './data/combine/s3_ilf.data', function ( object ) {
-        if(ilf_loader.center!==null&&ilf_loader.bundleposition !== null) {
-            object.position.x = -118;
-            object.position.y = -123;
-            object.position.z = -90;
-            //group.add( object );
-            mainGroup.add(object);
-            var spritey = makeTextSprite(" ILF ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b:255, a: 1.0}, backgroundColor: {r: 0, g:255, b: 255, a: 0.8} });
-            spritey.position.set(ilf_loader.center.x-ilf_loader.center.x-20, ilf_loader.center.y-ilf_loader.center.y,
-                            ilf_loader.center.z-ilf_loader.center.z);
-            //group.add( spritey );
-            mainGroup.add(spritey);
+            BoxGroup1.position.x = loaderbox.center.x;
+            BoxGroup1.position.y = loaderbox.center.y;
+            BoxGroup1.position.z = loaderbox.center.z ;
+            mainGroup.add(BoxGroup1);
 
             loadedCount++;
-            setProgressBar(loadedCount, 5);
+            setProgressBar(loadedCount, 3);
         }
     } );
+
+    var loaderbox2 = new BoxLoader(manager );
+    loaderbox2.load( boxPath2, function ( geometry ) {
+        if (geometry !== undefined && loaderbox2.center !==null) {
+
+            var material = new THREE.MeshBasicMaterial({
+                opacity: 0.5,
+                transparent: true,
+                color: 'silver',
+                side: THREE.BackSide
+            });
+            var mesh = new THREE.Mesh( geometry, material );
+            var pos = loaderbox2.center.clone();
+            /*mesh.position.x = pos.x;
+            mesh.position.y = pos.y;
+            mesh.position.z = pos.z;*/
+            //group.add(mesh);
+            BoxGroup2.add(mesh);
+            {//create the wireframe
+                var verticeGeo = new THREE.Geometry();
+                var vertices =  geometry.vertices;
+                for(var i =0;i<4;++i)
+                {
+                    verticeGeo.vertices.push(vertices[2*i]);
+                    verticeGeo.vertices.push(vertices[2*i+1]);
+                }
+                {
+                    verticeGeo.vertices.push(vertices[0]);
+                    verticeGeo.vertices.push(vertices[5]);
+                    verticeGeo.vertices.push(vertices[1]);
+                    verticeGeo.vertices.push(vertices[4]);
+                    verticeGeo.vertices.push(vertices[2]);
+                    verticeGeo.vertices.push(vertices[7]);
+                    verticeGeo.vertices.push(vertices[3]);
+                    verticeGeo.vertices.push(vertices[6]);
+                }
+                for(i =0;i<2;++i)
+                {
+                    verticeGeo.vertices.push(vertices[i]);
+                    verticeGeo.vertices.push(vertices[i+2]);
+                    verticeGeo.vertices.push(vertices[4+i]);
+                    verticeGeo.vertices.push(vertices[4+i+2]);
+                }
+                var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
+                var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
+                /*line.position.x = loaderbox2.center.x;
+                line.position.y = loaderbox2.center.y;
+                line.position.z = loaderbox2.center.z ;*/
+                BoxGroup2.add( line );
+            }
+            var spritey = makeTextSprite( " 2 ",
+                    { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
+            //spritey.position.set(pos.x,pos.y ,pos.z );
+            //group.add( spritey );
+            BoxGroup2.add(spritey);
+            BoxGroup2.position.x = loaderbox2.center.x;
+            BoxGroup2.position.y = loaderbox2.center.y;
+            BoxGroup2.position.z = loaderbox2.center.z ;
+            mainGroup.add(BoxGroup2);
+
+            loadedCount++;
+            setProgressBar(loadedCount, 3);
+        }
+    });
+    if(mainGroup !== undefined)
+    {
+       group.add(mainGroup);
+    }
     //scene.add(group);
-    group.add(mainGroup);
-    /*
+
     //GUI
-    var controls =
+    controls =
     {
         domListen : true,
-        cstposx : -0,
-        cstposy : 0,
-        cstposz : -0,
+        Box1posx : -18,
+        Box1posy : 30,
+        Box1posz : -10,
 
-        ifoposx : 0,
-        ifoposy : 0,
-        ifoposz : 0,
-
-        ilfposx : 0,
-        ilfposy : 0,
-        ilfposz : 0,
-
-        cgposx : 0,
-        cgposy : 0,
-        cgposz : 0
-
+        Box2posx : 14,
+        Box2posy : 26,
+        Box2posz : -9.7
     };
     var gui = new dat.GUI();
     var domListen = gui.add(controls, 'domListen').name('Prohibit Rotation').onChange(function(value){
@@ -360,87 +486,46 @@ function init() {
         }
 
     });
-    var box1Folder = gui.addFolder('CG');
-    box1Folder.add(controls, 'cgposx', -128, 128).onChange(
+    var box1Folder = gui.addFolder('Box1');
+    box1Folder.add(controls, 'Box1posx', -128, 128).onChange(
             function(value)
             {
-                CGGroup.position.x = value;
+                BoxGroup1.position.x = value;
             });
-    box1Folder.add(controls, 'cgposy', -128, 128).onChange(
+    box1Folder.add(controls, 'Box1posy', -128, 128).onChange(
             function(value)
             {
-                CGGroup.position.y = value;
+                BoxGroup1.position.y = value;
             });
-    box1Folder.add(controls, 'cgposz', -128, 128).onChange(
+    box1Folder.add(controls, 'Box1posz', -128, 128).onChange(
             function(value)
             {
-                CGGroup.position.z = value;
-            });
-
-    var box2Folder = gui.addFolder('CST');
-    box2Folder.add(controls, 'cstposx', -128, 128).onChange(
-            function(value)
-            {
-                CSTGroup.position.x = value;
-            });
-    box2Folder.add(controls, 'cstposy', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.y = value;
-            });
-    box2Folder.add(controls, 'cstposz', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.z = value;
+                BoxGroup1.position.z = value;
             });
 
-    var box3Folder = gui.addFolder('ILF');
-    box3Folder.add(controls, 'ilfposx', -128, 128).onChange(
+    var box2Folder = gui.addFolder('Box2');
+    box2Folder.add(controls, 'Box2posx', -128, 128).onChange(
             function(value)
             {
                 BoxGroup2.position.x = value;
             });
-    box3Folder.add(controls, 'ilfposy', -128, 128).onChange(
+    box2Folder.add(controls, 'Box2posy', -128, 128).onChange(
             function(value)
             {
                 BoxGroup2.position.y = value;
             });
-    box3Folder.add(controls, 'ilfposz', -128, 128).onChange(
+    box2Folder.add(controls, 'Box2posz', -128, 128).onChange(
             function(value)
             {
                 BoxGroup2.position.z = value;
             });
 
-    var box4Folder = gui.addFolder('IFO');
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.x = value;
-            });
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.y = value;
-            });
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.z = value;
-            });
-     */
     //render
     renderer = new THREE.WebGLRenderer({antialias:true});
+    //renderer.setFaceCulling( THREE.CullFaceFront );
     renderer.setSize( window.innerWidth, window.innerHeight );
-
     container.appendChild( renderer.domElement );
-
-    stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
-    stats.domElement.style.zIndex = 100;
-    container.appendChild( stats.domElement );
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-
     document.addEventListener( 'mousewheel', onMouseWheel, false );
     document.addEventListener( 'DOMMouseScroll', onMouseWheel, false ); // firefox
     window.addEventListener( 'resize', onWindowResize, false );
@@ -453,7 +538,6 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
-
     render();
 
 }
@@ -559,10 +643,10 @@ function onMouseWheel( event ) {
 
     }
 
-    zoomValue += delta ;
+    zoomValue += delta;
 
 }
-function makeTextSprite( message, parameters )
+function makeFontTexture(message, parameters)
 {
     if ( parameters === undefined ) parameters = {};
 
@@ -576,10 +660,12 @@ function makeTextSprite( message, parameters )
             parameters["borderThickness"] : 1;
 
     var borderColor = parameters.hasOwnProperty("borderColor") ?
-            parameters["borderColor"] : { r:0, g:0, b:0, a:1.0 };
+            parameters["borderColor"] : { r:255, g:255, b:255, a:1.0 };
 
     var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
             parameters["backgroundColor"] : { r:255, g:255, b:255, a:1.0 };
+    var fontColor = parameters.hasOwnProperty("fontColor") ?
+            parameters["fontColor"] : { r:0, g:0, b:0, a:1.0 };
 
     var canvas = document.createElement('canvas');
     var context = canvas.getContext('2d');
@@ -601,18 +687,35 @@ function makeTextSprite( message, parameters )
     // 1.4 is extra height factor for text below baseline: g,j,p,q.
 
     // text color
-    context.fillStyle = "rgba(255, 255, 255, 1.0)";
+    context.fillStyle = "rgba(" + fontColor.r + "," + fontColor.g + ","
+            + fontColor.b + "," + fontColor.a + ")";
 
     context.fillText( message, borderThickness, fontsize + borderThickness);
 
     // canvas contents will be used for a texture
     var texture = new THREE.Texture(canvas);
     texture.needsUpdate = true;
+    return texture;
+}
+
+function makeTextLabel( message, parameters )
+{
+    var texture = makeFontTexture(message, parameters);
+    var spriteMaterial = new THREE.SpriteMaterial(
+            { map: texture,useScreenCoordinates: true} );
+    var sprite = new THREE.Sprite( spriteMaterial );
+    sprite.scale.set(30,15,1.0);
+    return sprite;
+}
+
+function makeTextSprite( message, parameters )
+{
+    var texture = makeFontTexture(message, parameters);
 
     var spriteMaterial = new THREE.SpriteMaterial(
             { map: texture, useScreenCoordinates: false} );
     var sprite = new THREE.Sprite( spriteMaterial );
-    sprite.scale.set(60,60,60);
+    sprite.scale.set(35,35,35.0);
     return sprite;
 }
 
@@ -639,8 +742,10 @@ function animate() {
     requestAnimationFrame( animate );
     update();
     render();
+
 }
-function update(){
+function update()
+{
     var rotateQuaternion = rotateMatrix(rotateStartP, rotateEndP);
     quater = mainGroup.quaternion;
     quater.multiplyQuaternions(rotateQuaternion,quater);
@@ -649,10 +754,10 @@ function update(){
     mainGroup.position.z += zoomValue;
     zoomValue = 0;
 }
+
 function render() {
 
     renderer.render( scene, camera );
-    stats.update();
 
 }
 

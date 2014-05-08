@@ -82,6 +82,8 @@ GeometryLoader.prototype = {
                 material = new THREE.MeshPhongMaterial({color:0x0000FF} );
             else if(this.bundlecolor === 'yellow')
                 material = new THREE.MeshPhongMaterial({color:0xFFFF00} );
+            else if(this.bundlecolor === 'white')
+                material = new THREE.MeshPhongMaterial({color:0xFFFFFF} );
             else
                 material = new THREE.MeshPhongMaterial({color:0x00FFFF} );
 

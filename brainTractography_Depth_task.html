@@ -144,7 +144,7 @@ function init() {
     info.style.top = '15px';
     info.style.width = '100%';
     info.style.textAlign = 'center';
-    info.innerHTML = 'DMRI brain tractography-----Fiber bundle information Structure(Training)';
+    info.innerHTML = 'DMRI brain tractography-----Depth information';
 
     container.appendChild( info );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -166,16 +166,16 @@ function init() {
 
     // FLOOR
     /*
-    var floorTexture = new THREE.ImageUtils.loadTexture( './images/checkerboard.jpg' );
-    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-    floorTexture.repeat.set( 10, 10 );
-    var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
-    var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-    var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.position.y = -100;
-    floor.rotation.x = Math.PI / 2;
-    scene.add(floor);
-    */
+     var floorTexture = new THREE.ImageUtils.loadTexture( './images/checkerboard.jpg' );
+     floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+     floorTexture.repeat.set( 10, 10 );
+     var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
+     var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+     var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+     floor.position.y = -100;
+     floor.rotation.x = Math.PI / 2;
+     scene.add(floor);
+     */
     var helper = new THREE.GridHelper( 200, 10 );
     helper.setColors( 0x808080, 0x808080 );
     helper.position.y = -100;
@@ -225,13 +225,6 @@ function init() {
             object.position.z = -cc_loader.center.z;
             //group.add( object );
             mainGroup.add(object);
-
-            var spritey = makeTextSprite( " CC ",
-                    { fontsize:12, borderColor: {r:255, g:255, b:255, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-            spritey.position.set(cc_loader.bundleposition.x-cc_loader.center.x,cc_loader.bundleposition.y-cc_loader.center.y,
-                            cc_loader.bundleposition.z-cc_loader.center.z);
-            //group.add( spritey );
-            mainGroup.add(spritey);
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
@@ -246,14 +239,6 @@ function init() {
             object.position.z = -cg_loader.center.z;
             //group.add( object );
             mainGroup.add(object);
-            var spritey = makeTextSprite(" CG ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r:0 , g: 255, b: 0, a: 0.8} });
-            //spritey.position.set(cg_loader.bundleposition.x-cg_loader.center.x, cg_loader.bundleposition.y-cg_loader.center.y,
-            // cg_loader.bundleposition.z-cg_loader.center.z);
-            spritey.position.set((cg_loader.bundleposition.x-cg_loader.center.x)/4+20, (cg_loader.bundleposition.y-cg_loader.center.y)/2,
-                            cg_loader.bundleposition.z-cg_loader.center.z+20);
-            //group.add( spritey );
-            mainGroup.add(spritey);
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
@@ -267,19 +252,12 @@ function init() {
             object.position.z = -94;
 
             mainGroup.add(object);
-            var spritey = makeTextSprite(" CST ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r: 0, g: 0, b: 255, a: 0.8} });
-            spritey.position.set(cst_loader.bundleposition.x-cst_loader.center.x+20, cst_loader.bundleposition.y-cst_loader.bundleposition.y-20,
-                            cst_loader.bundleposition.z-cst_loader.center.z+20);
-            //group.add( spritey );
-            mainGroup.add(spritey);
-
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
 
-    var ifo_loader = new GeometryLoader(manager,'yellow' );
+    var ifo_loader = new GeometryLoader(manager,'white' );
     ifo_loader.load( './data/combine/s3_ifo.data', function ( object ) {
         if(ifo_loader.center!==null&&ifo_loader.bundleposition !== null) {
             object.position.x = -118;
@@ -287,19 +265,13 @@ function init() {
             object.position.z = -90;
             //group.add( object );
             mainGroup.add(object);
-            var spritey = makeTextSprite(" IFO ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b: 255, a: 1.0}, backgroundColor: {r: 255, g: 255, b: 0, a: 0.8} });
-            spritey.position.set(ifo_loader.bundleposition.x-ifo_loader.center.x-20, ifo_loader.bundleposition.y-ifo_loader.center.y,
-                            ifo_loader.bundleposition.z-ifo_loader.center.z);
-            //group.add( spritey );
-            mainGroup.add(spritey);
 
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
 
-    var ilf_loader = new GeometryLoader(manager,'other' );
+    var ilf_loader = new GeometryLoader(manager,'white' );
     ilf_loader.load( './data/combine/s3_ilf.data', function ( object ) {
         if(ilf_loader.center!==null&&ilf_loader.bundleposition !== null) {
             object.position.x = -118;
@@ -307,127 +279,14 @@ function init() {
             object.position.z = -90;
             //group.add( object );
             mainGroup.add(object);
-            var spritey = makeTextSprite(" ILF ",
-                    { fontsize: 12, borderColor: {r: 255, g: 255, b:255, a: 1.0}, backgroundColor: {r: 0, g:255, b: 255, a: 0.8} });
-            spritey.position.set(ilf_loader.center.x-ilf_loader.center.x-20, ilf_loader.center.y-ilf_loader.center.y,
-                            ilf_loader.center.z-ilf_loader.center.z);
-            //group.add( spritey );
-            mainGroup.add(spritey);
 
             loadedCount++;
             setProgressBar(loadedCount, 5);
         }
     } );
-    //scene.add(group);
+
     group.add(mainGroup);
-    /*
-    //GUI
-    var controls =
-    {
-        domListen : true,
-        cstposx : -0,
-        cstposy : 0,
-        cstposz : -0,
 
-        ifoposx : 0,
-        ifoposy : 0,
-        ifoposz : 0,
-
-        ilfposx : 0,
-        ilfposy : 0,
-        ilfposz : 0,
-
-        cgposx : 0,
-        cgposy : 0,
-        cgposz : 0
-
-    };
-    var gui = new dat.GUI();
-    var domListen = gui.add(controls, 'domListen').name('Prohibit Rotation').onChange(function(value){
-        if(value)
-        {
-            document.removeEventListener( 'mousedown', onDocumentMouseDown, false );
-            document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
-            document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
-            document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
-        }
-        else
-        {
-            document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-            document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-            document.addEventListener( 'mouseout', onDocumentMouseOut, false );
-        }
-
-    });
-    var box1Folder = gui.addFolder('CG');
-    box1Folder.add(controls, 'cgposx', -128, 128).onChange(
-            function(value)
-            {
-                CGGroup.position.x = value;
-            });
-    box1Folder.add(controls, 'cgposy', -128, 128).onChange(
-            function(value)
-            {
-                CGGroup.position.y = value;
-            });
-    box1Folder.add(controls, 'cgposz', -128, 128).onChange(
-            function(value)
-            {
-                CGGroup.position.z = value;
-            });
-
-    var box2Folder = gui.addFolder('CST');
-    box2Folder.add(controls, 'cstposx', -128, 128).onChange(
-            function(value)
-            {
-                CSTGroup.position.x = value;
-            });
-    box2Folder.add(controls, 'cstposy', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.y = value;
-            });
-    box2Folder.add(controls, 'cstposz', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.z = value;
-            });
-
-    var box3Folder = gui.addFolder('ILF');
-    box3Folder.add(controls, 'ilfposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.x = value;
-            });
-    box3Folder.add(controls, 'ilfposy', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.y = value;
-            });
-    box3Folder.add(controls, 'ilfposz', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.z = value;
-            });
-
-    var box4Folder = gui.addFolder('IFO');
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.x = value;
-            });
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.y = value;
-            });
-    box4Folder.add(controls, 'ifoposx', -128, 128).onChange(
-            function(value)
-            {
-                BoxGroup2.position.z = value;
-            });
-     */
     //render
     renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -561,77 +420,6 @@ function onMouseWheel( event ) {
 
     zoomValue += delta ;
 
-}
-function makeTextSprite( message, parameters )
-{
-    if ( parameters === undefined ) parameters = {};
-
-    var fontface = parameters.hasOwnProperty("fontface") ?
-            parameters["fontface"] : "Arial";
-
-    var fontsize = parameters.hasOwnProperty("fontsize") ?
-            parameters["fontsize"] : 12;
-
-    var borderThickness = parameters.hasOwnProperty("borderThickness") ?
-            parameters["borderThickness"] : 1;
-
-    var borderColor = parameters.hasOwnProperty("borderColor") ?
-            parameters["borderColor"] : { r:0, g:0, b:0, a:1.0 };
-
-    var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-            parameters["backgroundColor"] : { r:255, g:255, b:255, a:1.0 };
-
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-    context.font = "Bold " + fontsize + "px " + fontface;
-
-    // get size data (height depends only on font size)
-    var metrics = context.measureText( message );
-    var textWidth = metrics.width;
-
-    // background color
-    context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
-            + backgroundColor.b + "," + backgroundColor.a + ")";
-    // border color
-    context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + ","
-            + borderColor.b + "," + borderColor.a + ")";
-
-    context.lineWidth = borderThickness;
-    roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.2 + borderThickness, 2);
-    // 1.4 is extra height factor for text below baseline: g,j,p,q.
-
-    // text color
-    context.fillStyle = "rgba(255, 255, 255, 1.0)";
-
-    context.fillText( message, borderThickness, fontsize + borderThickness);
-
-    // canvas contents will be used for a texture
-    var texture = new THREE.Texture(canvas);
-    texture.needsUpdate = true;
-
-    var spriteMaterial = new THREE.SpriteMaterial(
-            { map: texture, useScreenCoordinates: false} );
-    var sprite = new THREE.Sprite( spriteMaterial );
-    sprite.scale.set(60,60,60);
-    return sprite;
-}
-
-// function for drawing rounded rectangles
-function roundRect(ctx, x, y, w, h, r)
-{
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
 }
 //
 function animate() {

@@ -206,27 +206,23 @@
             $( "progress" ).style.display = "none";//from start click
             scene.add(group);
         }
-        //Generate the data file
-        var fiberBundle =[];
-        fiberBundle.push('cc');
-        //fiberBundle.push('cg');
-        fiberBundle.push('cst');
-        fiberBundle.push('ifo');
-        fiberBundle.push('ilf');
-        var modelPath = './data/single/s1_';
-        var post ='.data';
-        var boxPath1 = './data/Lesion/s1/';
-        //var post ='.data';
-        var postBox1='/tumorbox_0_region_s1.data';
-
-        var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
-        //var bundleType ='cst';
-        if(bundleType != null)
+        var type = THREE.Math.randInt(0,3);// if has cg (0,4)
+        var boxPos= new THREE.Vector3();
+        if( type === 0 )//CC
         {
-            modelPath += bundleType;
-            modelPath += post;
-            boxPath1 +=bundleType;
-            boxPath1 += postBox1;
+            boxPos.set(-1,-12,19);
+        }
+        else if( type === 1 )//CST
+        {
+            boxPos.set(-15,2,-1);
+        }
+        else if( type === 2)  //IFO
+        {
+            boxPos.set(-32,-1,-9);
+        }
+        else        //ILF
+        {
+            boxPos.set(44,30,5);
         }
         //object
         var manager = new THREE.LoadingManager();
@@ -236,7 +232,7 @@
 
         };
         var loader = new GeometryLoader(manager );
-        loader.load( modelPath, function ( object ) {
+        loader.load(  "./data/combine/s3.data", function ( object ) {
             if(object !== undefined&&loader.center!==null) {
                 object.position.x = -loader.center.x;
                 object.position.y = -loader.center.y;
@@ -247,9 +243,9 @@
                 setProgressBar(loadedCount, 2);
             }
         } );
-
+        var BoxGroup = new THREE.Object3D();
         var loaderbox = new BoxLoader(manager);
-        loaderbox.load( boxPath1, function ( geometry ) {
+        loaderbox.load( './data/FA/cc/tumorbox_0_region_s1.data', function ( geometry ) {
             if(geometry !== undefined&&loaderbox.center!==null)
             {
                 var material = new THREE.MeshBasicMaterial({
@@ -257,11 +253,11 @@
                 });
                 //var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } );
                 var mesh = new THREE.Mesh( geometry.clone(), material );
-                mesh.position.x = loaderbox.center.x;
-                mesh.position.y = loaderbox.center.y;
-                mesh.position.z = loaderbox.center.z ;
+                //mesh.position.x = loaderbox.center.x;
+                //mesh.position.y = loaderbox.center.y;
+               // mesh.position.z = loaderbox.center.z ;
                 //group.add(mesh);
-                mainGroup.add(mesh);
+                BoxGroup.add(mesh);
                 //var wireframemesh = new THREE.Mesh( geometry.clone(), wireframeMaterial );
                 //wireframemesh.position = mesh.position;
                 //group.add(wireframemesh);
@@ -293,16 +289,18 @@
                     }
                     var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
                     var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                    line.position.x = loaderbox.center.x;
-                    line.position.y = loaderbox.center.y;
-                    line.position.z = loaderbox.center.z ;
-                    mainGroup.add( line );
+                    //line.position.x = loaderbox.center.x;
+                    //line.position.y = loaderbox.center.y;
+                    //line.position.z = loaderbox.center.z ;
+                    BoxGroup.add( line );
                 }
                 var spritey = makeTextSprite( " lesion area ",
                         { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-                spritey.position = mesh.position;
+                //spritey.position = mesh.position;
                 //group.add( spritey );
-                mainGroup.add(spritey);
+                BoxGroup.add(spritey);
+                BoxGroup.position = boxPos;
+                mainGroup.add(BoxGroup);
                 loadedCount++;
                 setProgressBar(loadedCount, 2);
             }
@@ -427,7 +425,7 @@
 
         }
 
-        zoomValue += delta /10;
+        zoomValue += delta;
 
     }
     function makeTextSprite( message, parameters )
@@ -508,8 +506,6 @@
         camera.updateProjectionMatrix();
 
         renderer.setSize( window.innerWidth, window.innerHeight );
-
-        controls.handleResize();
 
         render();
 
