@@ -1,7 +1,6 @@
 body 
 {
 	background-color: #eeeeee;
-	background-image: url("../html-images/white-pixels.png");
 	background-repeat: repeat;      /* repeat, no-repeat */
 	background-attachment: fixed;   /* scroll, fixed */
 	background-position: top left;  /* for no-repeat setting: top/bottom, left/right */
@@ -22,7 +21,7 @@ body
 	min-height: 150px;
 	/* next two lines for elder IE compatibility */
 	height: auto !important; 
-	height: 150px; 
+	height: 150px;
 	
 	/* Background color and gradients */
 	background: #eeeeee;
@@ -36,12 +35,33 @@ body
 	-moz-border-radius: 15px 15px 15px 15px;
 	-webkit-border-radius: 15px 15px 15px 15px;
 	border-radius: 15px 15px 15px 15px;
+   /* align-content: center; */
+}
+
+.centerBox
+{
+    width:1020px;
+    margin:0 auto;
+
+    /* Background color and gradients */
+    background: #eeeeee;
+    background: -moz-linear-gradient(top, #ffffff, #cccccc);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#cccccc));
+    /* really nifty translucence */
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.8) );
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from( rgba(255, 255, 255, 0.8) ), to( rgba(200, 200, 200, 0.8) ));
+
+    /* Rounded corners */
+    -moz-border-radius: 15px 15px 15px 15px;
+    -webkit-border-radius: 15px 15px 15px 15px;
+    border-radius: 15px 15px 15px 15px;
+    /* align-content: center; */
 }
 
 /* Page text links */
 a 
 {
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: bold;
 	font-variantx: small-caps;
 	color:#00c;
@@ -73,9 +93,19 @@ a:hover
 
 .superText
 {
-	color: #000;
-	text-shadow: 1px 1px 0px #aaa;
+    color: #000;
+    text-shadow: 1px 1px 0px #aaa;
+    margin: 0 auto;
+    text-align: left;
 }
+.superText2
+{
+    color: #000;
+    /*text-shadow: 1px 1px 0px #aaa;*/
+    margin:4px auto;
+    text-align: left;
+}
+
 .BText
 {
     color: #000;

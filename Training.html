@@ -1,90 +1,68 @@
 <html>
 <head>
-    <title>Brain Fiber Tractography Task</title>
+    <title>Sketch brain fiber tracts</title>
     <link rel=stylesheet href="css/index.css"/>
 </head>
 <body>
-<div class="bigTitle">Brain Fiber Tractography Study--Training</div>
-<div class="fancy">
 
-    <h2 class ="bigh2">Training</h2>
-
-    <p class ="superText"><strong>Important: You brownser should support WebGL, You could open <em><a href="http://get.webgl.org/" target="_blank">
-        http://get.webgl.org/</a></em> to have a test. You should see a spinning cube. If you do not, please visit the
-        <a href="https://support.google.com/chrome/answer/1220892" target="_blank">support site</a>
-        for your browser or find an computer that support WebGL</strong>   </p>
-    <hr/>
-    <h3 class ="bigh3">Description</h3>
-
-    <p class ="superText">What you will see today is a <a href="http://en.wikipedia.org/wiki/Diffusion_MRI" target="_blank" class="BText" >
-        diffusion tensor MRI</a> or <a href="http://en.wikipedia.org/wiki/Diffusion_tensor_imaging#Diffusion_tensor_imaging" target="_blank" class="BText" >
-        DTI</a> visualization. DTI is an in-vivo MRI technique that measures the motion of water molecules.
+<div class="bigTitle">Sketch brain fiber tracts--Training </div>
+<br/>
+<div class="centerBox">
+    <h2 class="bigh2"> Part 2: Training </h2>
+    <h3 class="bigh3" > Introduction: </h3>
+    <p class ="superText2">DMRI is an in-vivo MRI technique that measures the motion of water molecules.
         The technique can be used to study the connectivity of brain regions and distribution of neuro-pathways.
-        The pathways can be represented using a technique called DTI tractography, each tract representing water
-        molecules in motion along the main direction. You can see the picture: <br />
-        <img src="https://github.com/DaVinciLab/davincilab.github.com/blob/master/html-images/tesla_for_DTI_measure.jpg?raw=true" alt="tesla for DTI measure" title="tesla for DTI measure" class="superImage"/>
-        <img src="https://github.com/DaVinciLab/davincilab.github.com/blob/master/html-images/ellipsoid_tensor_shapes.jpg?raw=true" alt="'ellipsoid tensor shapes'" title="ellipsoid tensor shapes" class="superImage"/>
-        <img src="https://github.com/DaVinciLab/davincilab.github.com/blob/master/html-images/DMRI_tractography.png?raw=true" alt="'DMRI tractography'" title="DMRI tractography" class="superImage"/>.</p>
+        The pathways can be represented using a technique called DMRI tractography, each tract representing water
+        molecules in motion along the main direction. <br />
+        <br/>
+        <img src="./html-images/tesla_for_DTI_measure.png?raw=true" alt="tesla for DTI measure" title="tesla for DTI measure" align="middle">
+        <img src="./html-images/DMRI_tractography.png?raw=true" alt="'DMRI tractography'" title="DMRI tractography"  align="middle">
+        <br/>
+    </p>
 
-    <p class ="superText">In biomedicine, different anatomical region are named.Different fiber bundles follow different directions.
-        From the whole dataset (see the upper right picture), we just pick up 5 major fiber bundles:</p>
+    <h3 class="bigh3"> Anatomical Regions </h3>
+    <p class ="superText2">In biomedicine, different anatomical region are named. Today, we will study five of them:<br/></p>
     <ul>
-        <li><a href="http://en.wikipedia.org/wiki/Corpus_callosum" target="_blank" class="BText" >Corpus callosum or CC</a>; </li>
-        <li><a href="http://en.wikipedia.org/wiki/Cingulum_%28brain%29" target="_blank" class="BText" >Cingulum or CG</a>;</li>
-        <li><a href="http://en.wikipedia.org/wiki/Lateral_corticospinal_tract" target="_blank" class="BText" >Corticospinal
-            tract or CST</a>; </li>
-        <li><a href="http://en.wikipedia.org/wiki/Inferior_longitudinal_fasciculus" target="_blank" class="BText" >Inferior
-            frontaloccipital fasciculus, or IFO</a>;</li>
-        <li><a href="http://www.ncbi.nlm.nih.gov/pubmed/22617176" target="_blank" class="BText" >ILF (inferior longitudinal
-            occipitotemporal fasciculus, anterior to posterior)</a>.</li>
+        <li>corpus callosum or CC</li>
+        <li>Cingulum or CG
+        <li>Corticospinal tract or CST</li>
+        <li>Inferior frontaloccipital fasciculus or IFO</li>
+        <li>Inferior longitudinal occipitotemporal fasciculus or ILF</li>
     </ul>
-    <p class ="superText">If you are interested,
-    you can click the name of each fiber bundle to get information from Wikipidia</p>
-    <hr/>
-    <h3 class ="bigh3">Interaction</h3>
-    <iframe src="https://davincilab.github.io/brainTractography_Training.html" width="60%" height="60%" align="middle">
+    <p class ="superText2">
+        These structures are displayed below. You can rotate the model by holding down the left mouse button and dragging.
+        You can also zoom in and out using the mouse wheel (or the middle button).
+        Please try it now. The five part are displayed in different colors and the name of each part is labelled using the same color.
+    </p>
+    <br/>
+    <iframe src="https://davincilab.github.io/brainTractography_Training.html" width="100%" height="100%" align="middle">
         Your browser doesn't support 'iframe'. Click here to see the referenced
         URL in a new browser instance: &lt;a class="link" href="https://davincilab.github.io/brainTractography_Training.html"
         target="_blank"&gt;link&lt;/a&gt;
     </iframe>
 
-    <p class ="superText">
+    <p class ="superText2">
         <br/>
-        You will see a 3D brain model upper left. You can rotate
-        the model by left-mouse dragging and zoom in or out by wheel the mouse.<br/>
-        Please try it now.
-    </p>
-
-    <p class ="superText">The <strong>corpus callosum or CC(colored with &#8216;Red&#8217;)</strong> is
-        the only bundle that connects the left and right hemispheres. In the picture,
-        <strong>CG(colored with &#8216;Green&#8217;)</strong> is the green bundle sitting
-        right on top of corpus callosum. It is also very thin. The <strong>cortocospinal
-            tract or CST (in blue)</strong> has a fan shape. The last two fiber bundles of
-        <strong>IFO(in yellow)</strong> and <strong>ILF(in cyan)</strong>. It is easy to
+        The <font color="red">corpus callosum or CC</font> is
+        the only bundle that connects the left and right brain hemispheres. In the picture,
+        <font color="green">CG</font> is the green bundle sitting
+        right on top of corpus callosum. It is also very thin. The <font color="blue">cortocospinal
+            tract or CST </font> has a fan shape. The last two fiber bundles of
+        <font color="yellow">IFO</font> and <font color="#00ffff">ILF</font>. It is easy to
         confuse these two, because they originate from the same anatomical regions.
         ILF goes all the way from anterior to posterior, while IFO turns to the lateral
         direction. Also note that this person is normal but one side of the IFO is missing
-        (perhaps due to the low-resolution sampling).
-        All tasks that you will be performing will be related to these five bundles only.   </p>
-    <hr/>
-    <h3 class ="bigh3">Simple Task Description</h3>
+        (perhaps due to the low-resolution image sampling).
+        All tasks that you will be performing will be related to these five bundles only.
+    </p>
 
-    <p class ="superText">Our study focus on "Artists' line drawing to convey X information", where X could be depth,
-        FA, or whatever information we care. So this is the most important thing that your
-        drawing should convey X information for the 3D DMRI model in each task. After your finish each drawing,
-        you should depict "How your drawing convey X information" as clear as possible in the questionnaire.<br/>
-        For the detail task description, Please visit the <a href="brain_Tractography_Task.html" target="_blank">
-            Brain Tractography Tasks</a> Now!
-    </p>
-    <br/>
-    <br/>
+    <p class ="superText2">Please try to learn the spatial structure as much as you can. Once you are done, please click the
+        button <a href="brain_Tractography_Task1.html"><1></a>
+        <a href="brain_Tractography_Task2.html"><2></a>
+        <a href="brain_Tractography_Task3.html"><3></a> or
+        <a href="brain_Tractography_Task4.html"><4></a> to do the drawing experiment using the number we give you.
+       </p>
     <hr/>
-    <p>Welcome. Thanks for participating in our study. </p>
-    <p>
-        You can ask questions about this research study now or any time during the study by e-mailing Yongnan Zhu at
-        <a href="mailto:yongnan@umbc.edu?Subject=Question%20again" target="_top">
-            yongnan@umbc.edu</a><br/>
-    </p>
     <br/>
 </div>
 </body>

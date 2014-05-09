@@ -209,12 +209,13 @@ function init() {
     }
 
     //Generate the data file
-    var fiberBundle =[];
-    fiberBundle.push('cc');
-    //fiberBundle.push('cg');
-    fiberBundle.push('cst');
-    fiberBundle.push('ifo');
-    fiberBundle.push('ilf');
+    /*var fiberBundle =[];
+     fiberBundle.push('cc');
+     //fiberBundle.push('cg');
+     fiberBundle.push('cst');
+     fiberBundle.push('ifo');
+     fiberBundle.push('ilf');
+     */
     var modelPath = './data/combine/s3.data';
 
     var boxPath1 = './data/Tracing/s3/';
@@ -227,7 +228,8 @@ function init() {
     var postBox3='/tumorbox_2_region_s3.data';
     var postFiberIdx ='/fiberidx_2000002_region_s3.data';
 
-    var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
+    //var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
+    var bundleType = 'cc';
     if(bundleType != null)
     {
         boxPath1 +=bundleType;

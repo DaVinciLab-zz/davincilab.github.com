@@ -102,12 +102,12 @@
         <div id="progressbar" class="shadow"><div id="bar" class="shadow"></div></div>
     </center>
 </div>
-<script src="./js/three.js"></script>
-<script src="./js/TubePointGeometry.js"></script>
-<script src="./js/NewGeometryLoader.js"></script>
-<script src="./js/MinmaxBoxGeometry.js"></script>
-<script src="./js/BoxLoader.js"></script>
-<script src="./js/Detector.js"></script>
+<script src="js/three.js"></script>
+<script src="js/TubePointGeometry.js"></script>
+<script src="js/NewGeometryLoader.js"></script>
+<script src="js/MinmaxBoxGeometry.js"></script>
+<script src="js/BoxLoader.js"></script>
+<script src="js/Detector.js"></script>
 
 
 <script>
@@ -534,7 +534,7 @@ function rotateMatrix(rotateStart, rotateEnd)
     if ( angle )
     {
         axis.crossVectors( rotateStart, rotateEnd ).normalize();
-        angle *= 0.01;            //Here we could define rotate speed
+        angle *= 0.01*2;            //Here we could define rotate speed
         quaternion.setFromAxisAngle( axis, angle );
     }
     return  quaternion;

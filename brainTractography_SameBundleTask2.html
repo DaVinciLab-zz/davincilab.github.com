@@ -100,22 +100,20 @@
 
     <center>
         <div id="progressbar" class="shadow"><div id="bar" class="shadow"></div></div>
-        <div id="start" class="disabled">Start</div>
     </center>
 </div>
 <script src="./js/three.js"></script>
-<script src="./js/TubePointGeometry.js"></script>
-<script src="./js/ModelGeoLoader.js"></script>
-<script src="./js/MinmaxBoxGeometry.js"></script>
-<script src="./js/BoxLoader.js"></script>
+<script src="./js/SameBundleTubePointGeometry.js"></script>
+<script src="./js/FiberIdxLoaderForSameBundle.js"></script>
+<script src="./js/SameBundleGeoLoader.js"></script>
 <script src="./js/Detector.js"></script>
 
 
 <script>
     if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-    var container;
+    var container, stats;
+    var camera, scene, renderer;
 
-    var camera,  scene, renderer;
     var group;
     var mainGroup;
     var loadedCount =0;
@@ -144,10 +142,11 @@
         info.style.top = '15px';
         info.style.width = '100%';
         info.style.textAlign = 'center';
-        info.innerHTML = 'DMRI brain tractography-----Leasion Area';
+        info.innerHTML = 'DMRI brain tractography-----The yellow fibers are in the same bundle?';
 
         container.appendChild( info );
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+
         camera.position.z = 220;
 
         // scene
@@ -206,121 +205,83 @@
             $( "progress" ).style.display = "none";//from start click
             scene.add(group);
         }
-        var type = THREE.Math.randInt(0,3);// if has cg (0,4)
-        var boxPos= new THREE.Vector3();
-        if( type === 0 )//CC
+        //Generate the data file
+        /*var fiberBundle =[];
+        fiberBundle.push('cc');
+        fiberBundle.push('cg');
+        fiberBundle.push('cst');
+        fiberBundle.push('ifo');
+        fiberBundle.push('ilf');
+        */
+        var modelPath = './data/combine/s2.data';
+        var fiberIdx = './data/SameBundle/s2/';
+        var postFiberIdx;
+        /*if(THREE.Math.randInt(1,10) >= 5)
+            postFiberIdx ='/no/fiberidx_compound_region_s2.data';
+         else */
+            postFiberIdx ='/yes/fiberidx_2000005_region_s2.data';
+
+        //var bundleType = fiberBundle[THREE.Math.randInt(0,4)];// if has cg (0,4)
+        var bundleType ='cc';
+        if(bundleType != null)
         {
-            boxPos.set(-1,-12,19);
+            fiberIdx +=bundleType;
+            fiberIdx += postFiberIdx;
         }
-        else if( type === 1 )//CST
-        {
-            boxPos.set(-15,2,-1);
-        }
-        else if( type === 2)  //IFO
-        {
-            boxPos.set(-32,-1,-9);
-        }
-        else        //ILF
-        {
-            boxPos.set(44,30,5);
-        }
-        //object
+        //objectvar
         var manager = new THREE.LoadingManager();
         manager.onProgress = function ( item, loaded, total ) {
 
             console.log( item, loaded, total );
 
         };
-        var loader = new GeometryLoader(manager );
-        loader.load(  "./data/combine/s3.data", function ( object ) {
-            if(object !== undefined&&loader.center!==null) {
-                object.position.x = -loader.center.x;
-                object.position.y = -loader.center.y;
-                object.position.z = -loader.center.z;
-                //group.add(object);
-                mainGroup.add(object);
-                loadedCount++;
-                setProgressBar(loadedCount, 2);
-            }
-        } );
-        var BoxGroup = new THREE.Object3D();
-        var loaderbox = new BoxLoader(manager);
-        loaderbox.load( './data/FA/cc/tumorbox_0_region_s1.data', function ( geometry ) {
-            if(geometry !== undefined&&loaderbox.center!==null)
-            {
-                var material = new THREE.MeshBasicMaterial({
-                    color: 'black',transparent: true
-                });
-                //var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } );
-                var mesh = new THREE.Mesh( geometry.clone(), material );
-                //mesh.position.x = loaderbox.center.x;
-                //mesh.position.y = loaderbox.center.y;
-               // mesh.position.z = loaderbox.center.z ;
-                //group.add(mesh);
-                BoxGroup.add(mesh);
-                //var wireframemesh = new THREE.Mesh( geometry.clone(), wireframeMaterial );
-                //wireframemesh.position = mesh.position;
-                //group.add(wireframemesh);
-                //mainGroup.add(wireframemesh);
-                {//create the wireframe
-                    var verticeGeo = new THREE.Geometry();
-                    var vertices =  geometry.vertices;
-                    for(var i =0;i<4;++i)
-                    {
-                        verticeGeo.vertices.push(vertices[2*i]);
-                        verticeGeo.vertices.push(vertices[2*i+1]);
-                    }
-                    {
-                        verticeGeo.vertices.push(vertices[0]);
-                        verticeGeo.vertices.push(vertices[5]);
-                        verticeGeo.vertices.push(vertices[1]);
-                        verticeGeo.vertices.push(vertices[4]);
-                        verticeGeo.vertices.push(vertices[2]);
-                        verticeGeo.vertices.push(vertices[7]);
-                        verticeGeo.vertices.push(vertices[3]);
-                        verticeGeo.vertices.push(vertices[6]);
-                    }
-                    for(i =0;i<2;++i)
-                    {
-                        verticeGeo.vertices.push(vertices[i]);
-                        verticeGeo.vertices.push(vertices[i+2]);
-                        verticeGeo.vertices.push(vertices[4+i]);
-                        verticeGeo.vertices.push(vertices[4+i+2]);
-                    }
-                    var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
-                    var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                    //line.position.x = loaderbox.center.x;
-                    //line.position.y = loaderbox.center.y;
-                    //line.position.z = loaderbox.center.z ;
-                    BoxGroup.add( line );
-                }
-                var spritey = makeTextSprite( " lesion area ",
-                        { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-                //spritey.position = mesh.position;
-                //group.add( spritey );
-                BoxGroup.add(spritey);
-                BoxGroup.position = boxPos;
-                mainGroup.add(BoxGroup);
-                loadedCount++;
-                setProgressBar(loadedCount, 2);
-            }
-        } );
-        if(mainGroup !==undefined)
-        {
-            group.add(mainGroup);
+        function compareNumbers(a, b) {
+            return a - b;
         }
+        var loadIdx = new FiberIdxLoader(manager);
+        loadIdx.load( fiberIdx, function ( fiberIdx )
+        {
+            if(fiberIdx.length!==0)
+            {
+                fiberIdx.sort(compareNumbers);
+                var loader = new GeometryLoader(manager,fiberIdx );
+                loader.load( modelPath, function ( object ) {
+                    if(object!==undefined && loader.center !==null)
+                    {
+                        object.position.x = -loader.center.x;
+                        object.position.y = -loader.center.y;
+                        object.position.z = -loader.center.z;
+                        //group.add( object );
+                        mainGroup.add(object);
+                        loadedCount++;
+                        setProgressBar(loadedCount, 1);
+                    }
+                } );
+            }
+        });
 
         //scene.add(group);
+        group.add(mainGroup);
         //render
         renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize( window.innerWidth, window.innerHeight );
 
         container.appendChild( renderer.domElement );
         document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-
         document.addEventListener( 'mousewheel', onMouseWheel, false );
         document.addEventListener( 'DOMMouseScroll', onMouseWheel, false ); // firefox
         window.addEventListener( 'resize', onWindowResize, false );
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        render();
 
     }
 
@@ -428,88 +389,6 @@
         zoomValue += delta;
 
     }
-    function makeTextSprite( message, parameters )
-    {
-        if ( parameters === undefined ) parameters = {};
-
-        var fontface = parameters.hasOwnProperty("fontface") ?
-                parameters["fontface"] : "Arial";
-
-        var fontsize = parameters.hasOwnProperty("fontsize") ?
-                parameters["fontsize"] : 12;
-
-        var borderThickness = parameters.hasOwnProperty("borderThickness") ?
-                parameters["borderThickness"] : 1;
-
-        var borderColor = parameters.hasOwnProperty("borderColor") ?
-                parameters["borderColor"] : { r:0, g:0, b:0, a:1.0 };
-
-        var backgroundColor = parameters.hasOwnProperty("backgroundColor") ?
-                parameters["backgroundColor"] : { r:255, g:255, b:255, a:1.0 };
-
-        var canvas = document.createElement('canvas');
-        var context = canvas.getContext('2d');
-        context.font = "Bold " + fontsize + "px " + fontface;
-
-        // get size data (height depends only on font size)
-        var metrics = context.measureText( message );
-        var textWidth = metrics.width;
-
-        // background color
-        context.fillStyle   = "rgba(" + backgroundColor.r + "," + backgroundColor.g + ","
-                + backgroundColor.b + "," + backgroundColor.a + ")";
-        // border color
-        context.strokeStyle = "rgba(" + borderColor.r + "," + borderColor.g + ","
-                + borderColor.b + "," + borderColor.a + ")";
-
-        context.lineWidth = borderThickness;
-        roundRect(context, borderThickness/2, borderThickness/2, textWidth + borderThickness, fontsize * 1.2 + borderThickness, 2);
-        // 1.4 is extra height factor for text below baseline: g,j,p,q.
-
-        // text color
-        context.fillStyle = "rgba(255, 255, 255, 1.0)";
-
-        context.fillText( message, borderThickness, fontsize + borderThickness);
-
-        // canvas contents will be used for a texture
-        var texture = new THREE.Texture(canvas);
-        texture.needsUpdate = true;
-
-        var spriteMaterial = new THREE.SpriteMaterial(
-                { map: texture, useScreenCoordinates: false} );
-        var sprite = new THREE.Sprite( spriteMaterial );
-        sprite.scale.set(35,35,35.0);
-        return sprite;
-    }
-
-    // function for drawing rounded rectangles
-    function roundRect(ctx, x, y, w, h, r)
-    {
-        ctx.beginPath();
-        ctx.moveTo(x+r, y);
-        ctx.lineTo(x+w-r, y);
-        ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-        ctx.lineTo(x+w, y+h-r);
-        ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-        ctx.lineTo(x+r, y+h);
-        ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-        ctx.lineTo(x, y+r);
-        ctx.quadraticCurveTo(x, y, x+r, y);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-    }
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize( window.innerWidth, window.innerHeight );
-
-        render();
-
-    }
 
     //
     function animate() {
@@ -518,7 +397,8 @@
         update();
         render();
     }
-    function update(){
+    function update()
+    {
         var rotateQuaternion = rotateMatrix(rotateStartP, rotateEndP);
         quater = mainGroup.quaternion;
         quater.multiplyQuaternions(rotateQuaternion,quater);
