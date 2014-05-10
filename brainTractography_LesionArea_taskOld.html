@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>three.js DMRI brain tractography</title>
+    <title>DMRI brain tractography</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -104,8 +104,8 @@
     </center>
 </div>
 <script src="./js/three.js"></script>
-<script src="./js/SameBundleTubePointGeometry.js"></script>
-<script src="./js/LesionGeoLoader.js"></script>
+<script src="./js/TubePointGeometry.js"></script>
+<script src="./js/ModelGeoLoader.js"></script>
 <script src="./js/MinmaxBoxGeometry.js"></script>
 <script src="./js/BoxLoader.js"></script>
 <script src="./js/Detector.js"></script>
@@ -206,28 +206,24 @@
             $( "progress" ).style.display = "none";//from start click
             scene.add(group);
         }
-        //Generate the data file
-        /*var fiberBundle =[];
-        fiberBundle.push('cc');
-        //fiberBundle.push('cg');
-        fiberBundle.push('cst');
-        fiberBundle.push('ifo');
-        fiberBundle.push('ilf');
-        var modelPath = './data/single/s1_';
-        var post ='.data';
-        var boxPath1 = './data/Lesion/s1/';
-        //var post ='.data';
-        var postBox1='/tumorbox_0_region_s1.data';
-
-        var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
-        //var bundleType ='cst';
-        if(bundleType != null)
+        var type = THREE.Math.randInt(0,3);// if has cg (0,4)
+        var boxPos= new THREE.Vector3();
+        if( type === 0 )//CC
         {
-            modelPath += bundleType;
-            modelPath += post;
-            boxPath1 +=bundleType;
-            boxPath1 += postBox1;
-        }*/
+            boxPos.set(-1,-12,19);
+        }
+        else if( type === 1 )//CST
+        {
+            boxPos.set(-15,2,-1);
+        }
+        else if( type === 2)  //IFO
+        {
+            boxPos.set(-32,-1,-9);
+        }
+        else        //ILF
+        {
+            boxPos.set(44,30,5);
+        }
         //object
         var manager = new THREE.LoadingManager();
         manager.onProgress = function ( item, loaded, total ) {
@@ -235,73 +231,86 @@
             console.log( item, loaded, total );
 
         };
+        var loader = new GeometryLoader(manager );
+        loader.load(  "./data/combine/s3.data", function ( object ) {
+            if(object !== undefined&&loader.center!==null) {
+                object.position.x = -loader.center.x;
+                object.position.y = -loader.center.y;
+                object.position.z = -loader.center.z;
+                //group.add(object);
+                mainGroup.add(object);
+                loadedCount++;
+                setProgressBar(loadedCount, 2);
+            }
+        } );
+        var BoxGroup = new THREE.Object3D();
         var loaderbox = new BoxLoader(manager);
-        loaderbox.load( './data/Lesion/tumorbox1.data', function ( geometry ) {
-            if(geometry !== undefined&&loaderbox.center!==null
-                    &&loaderbox.minVertex!==null&&loaderbox.maxVertex!==null)
+        loaderbox.load( './data/FA/cc/tumorbox_0_region_s1.data', function ( geometry ) {
+            if(geometry !== undefined&&loaderbox.center!==null)
             {
-                var loader = new GeometryLoader(manager, loaderbox.minVertex, loaderbox.maxVertex );
-                loader.load( './data/combine/s4.data', function ( object ) {
-                    if(object !== undefined&&loader.center!==null) {
-                        object.position.x = -loader.center.x;
-                        object.position.y = -loader.center.y;
-                        object.position.z = -loader.center.z;
-                        //group.add(object);
-                        mainGroup.add(object);
-                        loadedCount++;
-                        setProgressBar(loadedCount, 3);
-                        {//create the wireframe
-                            var verticeGeo = new THREE.Geometry();
-                            var vertices =  geometry.vertices;
-                            for(var i =0;i<4;++i)
-                            {
-                                verticeGeo.vertices.push(vertices[2*i]);
-                                verticeGeo.vertices.push(vertices[2*i+1]);
-                            }
-                            {
-                                verticeGeo.vertices.push(vertices[0]);
-                                verticeGeo.vertices.push(vertices[5]);
-                                verticeGeo.vertices.push(vertices[1]);
-                                verticeGeo.vertices.push(vertices[4]);
-                                verticeGeo.vertices.push(vertices[2]);
-                                verticeGeo.vertices.push(vertices[7]);
-                                verticeGeo.vertices.push(vertices[3]);
-                                verticeGeo.vertices.push(vertices[6]);
-                            }
-                            for(i =0;i<2;++i)
-                            {
-                                verticeGeo.vertices.push(vertices[i]);
-                                verticeGeo.vertices.push(vertices[i+2]);
-                                verticeGeo.vertices.push(vertices[4+i]);
-                                verticeGeo.vertices.push(vertices[4+i+2]);
-                            }
-                            var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
-                            var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                            line.position.x = loaderbox.center.x-loader.center.x;
-                            line.position.y = loaderbox.center.y-loader.center.y;
-                            line.position.z = loaderbox.center.z-loader.center.z ;
-                            mainGroup.add( line );
-                            loadedCount++;
-                            setProgressBar(loadedCount, 3);
-                        }
-                        var spritey = makeTextSprite( " lesion area ",
-                                { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-                        //spritey.position = loaderbox.center;
-                        spritey.position.x = loaderbox.center.x-loader.center.x;
-                        spritey.position.y = loaderbox.center.y-loader.center.y;
-                        spritey.position.z = loaderbox.center.z-loader.center.z ;
-                        mainGroup.add(spritey);
-                        loadedCount++;
-                        setProgressBar(loadedCount, 3);
+                var material = new THREE.MeshBasicMaterial({
+                    color: 'black',transparent: true
+                });
+                //var wireframeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ee00, wireframe: true, transparent: true } );
+                var mesh = new THREE.Mesh( geometry.clone(), material );
+                //mesh.position.x = loaderbox.center.x;
+                //mesh.position.y = loaderbox.center.y;
+               // mesh.position.z = loaderbox.center.z ;
+                //group.add(mesh);
+                BoxGroup.add(mesh);
+                //var wireframemesh = new THREE.Mesh( geometry.clone(), wireframeMaterial );
+                //wireframemesh.position = mesh.position;
+                //group.add(wireframemesh);
+                //mainGroup.add(wireframemesh);
+                {//create the wireframe
+                    var verticeGeo = new THREE.Geometry();
+                    var vertices =  geometry.vertices;
+                    for(var i =0;i<4;++i)
+                    {
+                        verticeGeo.vertices.push(vertices[2*i]);
+                        verticeGeo.vertices.push(vertices[2*i+1]);
                     }
-                } );
-
+                    {
+                        verticeGeo.vertices.push(vertices[0]);
+                        verticeGeo.vertices.push(vertices[5]);
+                        verticeGeo.vertices.push(vertices[1]);
+                        verticeGeo.vertices.push(vertices[4]);
+                        verticeGeo.vertices.push(vertices[2]);
+                        verticeGeo.vertices.push(vertices[7]);
+                        verticeGeo.vertices.push(vertices[3]);
+                        verticeGeo.vertices.push(vertices[6]);
+                    }
+                    for(i =0;i<2;++i)
+                    {
+                        verticeGeo.vertices.push(vertices[i]);
+                        verticeGeo.vertices.push(vertices[i+2]);
+                        verticeGeo.vertices.push(vertices[4+i]);
+                        verticeGeo.vertices.push(vertices[4+i+2]);
+                    }
+                    var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
+                    var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
+                    //line.position.x = loaderbox.center.x;
+                    //line.position.y = loaderbox.center.y;
+                    //line.position.z = loaderbox.center.z ;
+                    BoxGroup.add( line );
+                }
+                var spritey = makeTextSprite( " lesion area ",
+                        { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
+                //spritey.position = mesh.position;
+                //group.add( spritey );
+                BoxGroup.add(spritey);
+                BoxGroup.position = boxPos;
+                mainGroup.add(BoxGroup);
+                loadedCount++;
+                setProgressBar(loadedCount, 2);
             }
         } );
         if(mainGroup !==undefined)
         {
             group.add(mainGroup);
         }
+
+        //scene.add(group);
         //render
         renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize( window.innerWidth, window.innerHeight );

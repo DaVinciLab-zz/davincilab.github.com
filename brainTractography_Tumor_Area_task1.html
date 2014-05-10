@@ -100,14 +100,11 @@
 
     <center>
         <div id="progressbar" class="shadow"><div id="bar" class="shadow"></div></div>
-        <div id="start" class="disabled">Start</div>
     </center>
 </div>
 <script src="./js/three.js"></script>
-<script src="./js/SameBundleTubePointGeometry.js"></script>
-<script src="./js/LesionGeoLoader.js"></script>
-<script src="./js/MinmaxBoxGeometry.js"></script>
-<script src="./js/BoxLoader.js"></script>
+<script src="./js/TubePointGeometry.js"></script>
+<script src="./js/ModelGeoLoader.js"></script>
 <script src="./js/Detector.js"></script>
 
 
@@ -115,7 +112,7 @@
     if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
     var container;
 
-    var camera,  scene, renderer;
+    var camera, scene, renderer;
     var group;
     var mainGroup;
     var loadedCount =0;
@@ -129,12 +126,12 @@
 
     init();
     animate();
-
     function $( id ) {
 
         return document.getElementById( id );
 
     }
+
     function init() {
 
         container = document.createElement( 'div' );
@@ -144,7 +141,7 @@
         info.style.top = '15px';
         info.style.width = '100%';
         info.style.textAlign = 'center';
-        info.innerHTML = 'DMRI brain tractography-----Leasion Area';
+        info.innerHTML = 'DMRI brain tractography-----Tumor Area Drawing Task';
 
         container.appendChild( info );
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -207,27 +204,27 @@
             scene.add(group);
         }
         //Generate the data file
-        /*var fiberBundle =[];
-        fiberBundle.push('cc');
-        //fiberBundle.push('cg');
-        fiberBundle.push('cst');
-        fiberBundle.push('ifo');
-        fiberBundle.push('ilf');
-        var modelPath = './data/single/s1_';
-        var post ='.data';
-        var boxPath1 = './data/Lesion/s1/';
-        //var post ='.data';
-        var postBox1='/tumorbox_0_region_s1.data';
+        var modelPath = './data/combine/s2.data';
 
-        var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
-        //var bundleType ='cst';
-        if(bundleType != null)
-        {
-            modelPath += bundleType;
-            modelPath += post;
-            boxPath1 +=bundleType;
-            boxPath1 += postBox1;
-        }*/
+        //Tumor area
+        //var material = new THREE.MeshNormalMaterial();
+        var material = new THREE.MeshPhongMaterial();
+        var sphereGeometry = new THREE.SphereGeometry(6, 32, 16);
+        var tumor = new THREE.Mesh( sphereGeometry, material );
+        var tumorPositionx = -12; //cst
+        var tumorPositiony = 5;
+        var tumorPositionz = 22;
+        tumor.position.set(tumorPositionx, tumorPositiony, tumorPositionz);
+        var spritey = makeTextSprite( "tumor area ",
+                { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
+        spritey.position.set(tumorPositionx,tumorPositiony ,tumorPositionz );
+        //group.add( spritey );
+        //group.add( tumor );
+        mainGroup.add(spritey);
+        mainGroup.add(tumor);
+        loadedCount++;
+        setProgressBar(loadedCount, 2);
+
         //object
         var manager = new THREE.LoadingManager();
         manager.onProgress = function ( item, loaded, total ) {
@@ -235,83 +232,42 @@
             console.log( item, loaded, total );
 
         };
-        var loaderbox = new BoxLoader(manager);
-        loaderbox.load( './data/Lesion/tumorbox1.data', function ( geometry ) {
-            if(geometry !== undefined&&loaderbox.center!==null
-                    &&loaderbox.minVertex!==null&&loaderbox.maxVertex!==null)
+        var loader = new GeometryLoader(manager );
+        loader.load( modelPath, function ( object ) {
+            if(object!==undefined && loader.center !==null)
             {
-                var loader = new GeometryLoader(manager, loaderbox.minVertex, loaderbox.maxVertex );
-                loader.load( './data/combine/s4.data', function ( object ) {
-                    if(object !== undefined&&loader.center!==null) {
-                        object.position.x = -loader.center.x;
-                        object.position.y = -loader.center.y;
-                        object.position.z = -loader.center.z;
-                        //group.add(object);
-                        mainGroup.add(object);
-                        loadedCount++;
-                        setProgressBar(loadedCount, 3);
-                        {//create the wireframe
-                            var verticeGeo = new THREE.Geometry();
-                            var vertices =  geometry.vertices;
-                            for(var i =0;i<4;++i)
-                            {
-                                verticeGeo.vertices.push(vertices[2*i]);
-                                verticeGeo.vertices.push(vertices[2*i+1]);
-                            }
-                            {
-                                verticeGeo.vertices.push(vertices[0]);
-                                verticeGeo.vertices.push(vertices[5]);
-                                verticeGeo.vertices.push(vertices[1]);
-                                verticeGeo.vertices.push(vertices[4]);
-                                verticeGeo.vertices.push(vertices[2]);
-                                verticeGeo.vertices.push(vertices[7]);
-                                verticeGeo.vertices.push(vertices[3]);
-                                verticeGeo.vertices.push(vertices[6]);
-                            }
-                            for(i =0;i<2;++i)
-                            {
-                                verticeGeo.vertices.push(vertices[i]);
-                                verticeGeo.vertices.push(vertices[i+2]);
-                                verticeGeo.vertices.push(vertices[4+i]);
-                                verticeGeo.vertices.push(vertices[4+i+2]);
-                            }
-                            var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
-                            var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                            line.position.x = loaderbox.center.x-loader.center.x;
-                            line.position.y = loaderbox.center.y-loader.center.y;
-                            line.position.z = loaderbox.center.z-loader.center.z ;
-                            mainGroup.add( line );
-                            loadedCount++;
-                            setProgressBar(loadedCount, 3);
-                        }
-                        var spritey = makeTextSprite( " lesion area ",
-                                { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
-                        //spritey.position = loaderbox.center;
-                        spritey.position.x = loaderbox.center.x-loader.center.x;
-                        spritey.position.y = loaderbox.center.y-loader.center.y;
-                        spritey.position.z = loaderbox.center.z-loader.center.z ;
-                        mainGroup.add(spritey);
-                        loadedCount++;
-                        setProgressBar(loadedCount, 3);
-                    }
-                } );
-
+                object.position.x = -loader.center.x;
+                object.position.y = -loader.center.y;
+                object.position.z = -loader.center.z;
+                //group.add( object );
+                mainGroup.add(object);
+                loadedCount++;
+                setProgressBar(loadedCount, 2);
             }
         } );
-        if(mainGroup !==undefined)
-        {
-            group.add(mainGroup);
-        }
+        group.add(mainGroup);
+        //scene.add(group);
         //render
         renderer = new THREE.WebGLRenderer({antialias:true});
         renderer.setSize( window.innerWidth, window.innerHeight );
-
         container.appendChild( renderer.domElement );
         document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-
         document.addEventListener( 'mousewheel', onMouseWheel, false );
         document.addEventListener( 'DOMMouseScroll', onMouseWheel, false ); // firefox
         window.addEventListener( 'resize', onWindowResize, false );
+
+    }
+
+    function onWindowResize() {
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        controls.handleResize();
+
+        render();
 
     }
 
@@ -375,7 +331,7 @@
         if ( angle )
         {
             axis.crossVectors( rotateStart, rotateEnd ).normalize();
-            angle *= 0.01*2;            //Here we could define rotate speed
+            angle *= 0.01;            //Here we could define rotate speed
             quaternion.setFromAxisAngle( axis, angle );
         }
         return  quaternion;
@@ -419,6 +375,7 @@
         zoomValue += delta;
 
     }
+
     function makeTextSprite( message, parameters )
     {
         if ( parameters === undefined ) parameters = {};
@@ -469,7 +426,7 @@
         var spriteMaterial = new THREE.SpriteMaterial(
                 { map: texture, useScreenCoordinates: false} );
         var sprite = new THREE.Sprite( spriteMaterial );
-        sprite.scale.set(35,35,35.0);
+        sprite.scale.set(30,30,30.0);
         return sprite;
     }
 
@@ -490,18 +447,6 @@
         ctx.fill();
         ctx.stroke();
     }
-
-    function onWindowResize() {
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        renderer.setSize( window.innerWidth, window.innerHeight );
-
-        render();
-
-    }
-
     //
     function animate() {
 
@@ -509,7 +454,8 @@
         update();
         render();
     }
-    function update(){
+    function update()
+    {
         var rotateQuaternion = rotateMatrix(rotateStartP, rotateEndP);
         quater = mainGroup.quaternion;
         quater.multiplyQuaternions(rotateQuaternion,quater);
@@ -519,7 +465,9 @@
         zoomValue = 0;
     }
     function render() {
+
         renderer.render( scene, camera );
+
     }
 
 </script>

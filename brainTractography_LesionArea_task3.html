@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DMRI brain tractography</title>
+    <title>three.js DMRI brain tractography</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -97,23 +97,25 @@
 <body>
 <div id="progress">
     <span id="message">Loading ...</span>
+
     <center>
-        <div id="progressbar" class="shadow">
-            <div id="bar" class="shadow"></div>
-        </div>
+        <div id="progressbar" class="shadow"><div id="bar" class="shadow"></div></div>
+        <div id="start" class="disabled">Start</div>
     </center>
 </div>
 <script src="./js/three.js"></script>
-<script src="./js/TubePointGeometry.js"></script>
-<script src="./js/ModelGeoLoader.js"></script>
+<script src="./js/SameBundleTubePointGeometry.js"></script>
+<script src="./js/LesionGeoLoader.js"></script>
+<script src="./js/MinmaxBoxGeometry.js"></script>
+<script src="./js/BoxLoader.js"></script>
 <script src="./js/Detector.js"></script>
-<script src="./js/dat.gui.js"></script>
+
 
 <script>
 if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 var container;
-var controls;
-var camera, scene, renderer;
+
+var camera,  scene, renderer;
 var group;
 var mainGroup;
 var loadedCount =0;
@@ -127,12 +129,12 @@ var zoomValue =0;
 
 init();
 animate();
+
 function $( id ) {
 
     return document.getElementById( id );
 
 }
-
 function init() {
 
     container = document.createElement( 'div' );
@@ -142,7 +144,7 @@ function init() {
     info.style.top = '15px';
     info.style.width = '100%';
     info.style.textAlign = 'center';
-    info.innerHTML = 'DMRI brain tractography-----Tumor Area Drawing Task';
+    info.innerHTML = 'DMRI brain tractography-----Leasion Area';
 
     container.appendChild( info );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -205,27 +207,27 @@ function init() {
         scene.add(group);
     }
     //Generate the data file
-    var modelPath = './data/combine/s2.data';
+    /*var fiberBundle =[];
+     fiberBundle.push('cc');
+     //fiberBundle.push('cg');
+     fiberBundle.push('cst');
+     fiberBundle.push('ifo');
+     fiberBundle.push('ilf');
+     var modelPath = './data/single/s1_';
+     var post ='.data';
+     var boxPath1 = './data/Lesion/s1/';
+     //var post ='.data';
+     var postBox1='/tumorbox_0_region_s1.data';
 
-    //Tumor area
-    var material = new THREE.MeshPhongMaterial();
-    //var material = new THREE.MeshPhongMaterial();
-    var sphereGeometry = new THREE.SphereGeometry(6, 32, 16);
-    var tumor = new THREE.Mesh( sphereGeometry, material );
-    var tumorPositionx = THREE.Math.randFloat(-50,50);
-    var tumorPositiony = THREE.Math.randFloat(-50,50);
-    var tumorPositionz =THREE.Math.randFloat(-40,40);
-    tumor.position.set(tumorPositionx, tumorPositiony, tumorPositionz);
-    var spritey = makeTextSprite( "tumor area ",
-            { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
-    spritey.position.set(tumorPositionx,tumorPositiony ,tumorPositionz );
-    //group.add( spritey );
-    //group.add( tumor );
-    mainGroup.add(spritey);
-    mainGroup.add(tumor);
-    loadedCount++;
-    setProgressBar(loadedCount, 2);
-
+     var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
+     //var bundleType ='cst';
+     if(bundleType != null)
+     {
+     modelPath += bundleType;
+     modelPath += post;
+     boxPath1 +=bundleType;
+     boxPath1 += postBox1;
+     }*/
     //object
     var manager = new THREE.LoadingManager();
     manager.onProgress = function ( item, loaded, total ) {
@@ -233,85 +235,83 @@ function init() {
         console.log( item, loaded, total );
 
     };
-    var loader = new GeometryLoader(manager );
-    loader.load( modelPath, function ( object ) {
-        if(object!==undefined && loader.center !==null)
+    var loaderbox = new BoxLoader(manager);
+    loaderbox.load( './data/Lesion/lesion3.data', function ( geometry ) {
+        if(geometry !== undefined&&loaderbox.center!==null
+                &&loaderbox.minVertex!==null&&loaderbox.maxVertex!==null)
         {
-            object.position.x = -loader.center.x;
-            object.position.y = -loader.center.y;
-            object.position.z = -loader.center.z;
-            //group.add( object );
-            mainGroup.add(object);
-            loadedCount++;
-            setProgressBar(loadedCount, 2);
+            var loader = new GeometryLoader(manager, loaderbox.minVertex, loaderbox.maxVertex );
+            loader.load( './data/combine/s4.data', function ( object ) {
+                if(object !== undefined&&loader.center!==null) {
+                    object.position.x = -loader.center.x;
+                    object.position.y = -loader.center.y;
+                    object.position.z = -loader.center.z;
+                    //group.add(object);
+                    mainGroup.add(object);
+                    loadedCount++;
+                    setProgressBar(loadedCount, 3);
+                    {//create the wireframe
+                        var verticeGeo = new THREE.Geometry();
+                        var vertices =  geometry.vertices;
+                        for(var i =0;i<4;++i)
+                        {
+                            verticeGeo.vertices.push(vertices[2*i]);
+                            verticeGeo.vertices.push(vertices[2*i+1]);
+                        }
+                        {
+                            verticeGeo.vertices.push(vertices[0]);
+                            verticeGeo.vertices.push(vertices[5]);
+                            verticeGeo.vertices.push(vertices[1]);
+                            verticeGeo.vertices.push(vertices[4]);
+                            verticeGeo.vertices.push(vertices[2]);
+                            verticeGeo.vertices.push(vertices[7]);
+                            verticeGeo.vertices.push(vertices[3]);
+                            verticeGeo.vertices.push(vertices[6]);
+                        }
+                        for(i =0;i<2;++i)
+                        {
+                            verticeGeo.vertices.push(vertices[i]);
+                            verticeGeo.vertices.push(vertices[i+2]);
+                            verticeGeo.vertices.push(vertices[4+i]);
+                            verticeGeo.vertices.push(vertices[4+i+2]);
+                        }
+                        var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
+                        var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
+                        line.position.x = loaderbox.center.x-loader.center.x;
+                        line.position.y = loaderbox.center.y-loader.center.y;
+                        line.position.z = loaderbox.center.z-loader.center.z ;
+                        mainGroup.add( line );
+                        loadedCount++;
+                        setProgressBar(loadedCount, 3);
+                    }
+                    var spritey = makeTextSprite( " lesion area ",
+                            { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
+                    //spritey.position = loaderbox.center;
+                    spritey.position.x = loaderbox.center.x-loader.center.x;
+                    spritey.position.y = loaderbox.center.y-loader.center.y;
+                    spritey.position.z = loaderbox.center.z-loader.center.z ;
+                    mainGroup.add(spritey);
+                    loadedCount++;
+                    setProgressBar(loadedCount, 3);
+                }
+            } );
+
         }
     } );
-    group.add(mainGroup);
-    //scene.add(group);
-
-    //GUI
-    controls =
+    if(mainGroup !==undefined)
     {
-        domListen : true,
-        Box1posx : 0,
-        Box1posy : 0,
-        Box1posz : 0
-    };
-    var gui = new dat.GUI();
-    var domListen = gui.add(controls, 'domListen').name('Prohibit Rotation').onChange(function(value){
-        if(value)
-        {
-            document.removeEventListener( 'mousedown', onDocumentMouseDown, false );
-            document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
-            document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
-            document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
-        }
-        else
-        {
-            document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-            document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-            document.addEventListener( 'mouseout', onDocumentMouseOut, false );
-        }
-
-    });
-    var box1Folder = gui.addFolder('Tumor Position');
-    box1Folder.add(controls, 'Box1posx', -128, 128).onChange(
-            function(value)
-            {
-                tumor.position.x = value;
-            });
-    box1Folder.add(controls, 'Box1posy', -128, 128).onChange(
-            function(value)
-            {
-                tumor.position.y = value;
-            });
-    box1Folder.add(controls, 'Box1posz', -128, 128).onChange(
-            function(value)
-            {
-                tumor.position.z = value;
-            });
-
+        group.add(mainGroup);
+    }
     //render
     renderer = new THREE.WebGLRenderer({antialias:true});
     renderer.setSize( window.innerWidth, window.innerHeight );
+
     container.appendChild( renderer.domElement );
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+
     document.addEventListener( 'mousewheel', onMouseWheel, false );
     document.addEventListener( 'DOMMouseScroll', onMouseWheel, false ); // firefox
     window.addEventListener( 'resize', onWindowResize, false );
-
-}
-
-function onWindowResize() {
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
-
-    render();
 
 }
 
@@ -419,7 +419,6 @@ function onMouseWheel( event ) {
     zoomValue += delta;
 
 }
-
 function makeTextSprite( message, parameters )
 {
     if ( parameters === undefined ) parameters = {};
@@ -470,7 +469,7 @@ function makeTextSprite( message, parameters )
     var spriteMaterial = new THREE.SpriteMaterial(
             { map: texture, useScreenCoordinates: false} );
     var sprite = new THREE.Sprite( spriteMaterial );
-    sprite.scale.set(30,30,30.0);
+    sprite.scale.set(35,35,35.0);
     return sprite;
 }
 
@@ -491,6 +490,18 @@ function roundRect(ctx, x, y, w, h, r)
     ctx.fill();
     ctx.stroke();
 }
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    render();
+
+}
+
 //
 function animate() {
 
@@ -498,8 +509,7 @@ function animate() {
     update();
     render();
 }
-function update()
-{
+function update(){
     var rotateQuaternion = rotateMatrix(rotateStartP, rotateEndP);
     quater = mainGroup.quaternion;
     quater.multiplyQuaternions(rotateQuaternion,quater);
@@ -509,9 +519,7 @@ function update()
     zoomValue = 0;
 }
 function render() {
-
     renderer.render( scene, camera );
-
 }
 
 </script>
