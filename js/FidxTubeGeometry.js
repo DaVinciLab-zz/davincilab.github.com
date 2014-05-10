@@ -15,7 +15,7 @@
  * http://www.cs.indiana.edu/pub/techreports/TR425.pdf
  */
 
-TubeGeometry = function( path, segments, radius, radialSegments, closed,yellowState ) {
+TubeGeometry = function( path, segments, radius, radialSegments, closed) {
 
     THREE.Geometry.call(this);
 
@@ -144,136 +144,43 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed,yellowSt
     }
 
     // construct the mesh for the cap
-    {
-        //for the front cap
-        if (yellowState) {
-            var uvs = [], centerUV = new THREE.Vector2( 0.5, 0.5 );
-            var center = path[0];
-            normal = normals[ 0 ];
-            binormal = binormals[ 0 ];
-            //scope.vertices.push(center);        //put the center of circle to the vertices matrix
-            uvs.push( centerUV );
 
-            for ( i = 0; i <= this.radialSegments; i ++ ) {
-
-                var segment = i / this.radialSegments * 2 * Math.PI;
-
-                cx = -(this.radius + 0.5 ) * Math.cos(segment); // TODO: Hack: Negating it so it faces outside.
-                cy = (this.radius + 0.5 ) * Math.sin(segment);
-                var tmpPos = new THREE.Vector3();
-                tmpPos.copy(center);
-                tmpPos.x += cx * normal.x + cy * binormal.x;
-                tmpPos.y += cx * normal.y + cy * binormal.y;
-                tmpPos.z += cx * normal.z + cy * binormal.z;
-
-                scope.vertices.push( tmpPos );
-                uvs.push( new THREE.Vector2( ( tmpPos.x / radius + 1 ) / 2, ( tmpPos.y / radius + 1 ) / 2 ) );
-
-            }
-
-           // var n = new THREE.Vector3( 0, 0, 1 );
-            var circlePointSt  = this.vertices.length - this.radialSegments-1;
-            for ( i = 1; i <= this.radialSegments; i ++ ) {
-
-                var v1 = circlePointSt+ i;
-                var v2 = circlePointSt+i + 1 ;
-                var v3 = circlePointSt;
-                if(i=== this.radialSegments)
-                {
-                    v1= circlePointSt + this.radialSegments;
-                    v2 = circlePointSt +1;
-                }
-                this.faces.push( new THREE.Face3( v1, v2, v3) );
-                this.faces[ faceIdx ].vertexColors[0] = red;
-                this.faces[ faceIdx ].vertexColors[1] = red;
-                this.faces[ faceIdx ].vertexColors[2] = red;
-                this.faceVertexUvs[ 0 ].push( [ uvs[ i ].clone(), uvs[ i + 1 ].clone(), centerUV.clone() ] );
-                faceIdx++;
-            }
-            //for the back cap
-            uvs = [];
-            centerUV = new THREE.Vector2( 0.5, 0.5 );
-            center = path[this.segments - 1];
-            normal = normals[ this.segments - 1 ];
-            binormal = binormals[ this.segments - 1 ];
-            //scope.vertices.push(center);        //put the center of circle to the vertices matrix
-            uvs.push( centerUV );
-
-            for ( i = 0; i <= this.radialSegments; i ++ ) {
-
-                segment = i / this.radialSegments * 2 * Math.PI;
-
-                cx = -(this.radius + 0.5 ) * Math.cos(segment); // TODO: Hack: Negating it so it faces outside.
-                cy = (this.radius + 0.5 ) * Math.sin(segment);
-                tmpPos = new THREE.Vector3();
-                tmpPos.copy(center);
-                tmpPos.x += cx * normal.x + cy * binormal.x;
-                tmpPos.y += cx * normal.y + cy * binormal.y;
-                tmpPos.z += cx * normal.z + cy * binormal.z;
-
-                scope.vertices.push( tmpPos );
-                uvs.push( new THREE.Vector2( ( tmpPos.x / radius + 1 ) / 2, ( tmpPos.y / radius + 1 ) / 2 ) );
-
-            }
-
-            // var n = new THREE.Vector3( 0, 0, 1 );
-            circlePointSt  = this.vertices.length - this.radialSegments-1;
-            for ( i = 1; i <= this.radialSegments; i ++ ) {
-
-                v1 = circlePointSt+ i;
-                v2 = circlePointSt+i + 1 ;
-                v3 = circlePointSt;
-                if(i=== this.radialSegments)
-                {
-                    v1= circlePointSt + this.radialSegments;
-                    v2 = circlePointSt +1;
-                }
-                this.faces.push( new THREE.Face3( v1, v2, v3) );
-                this.faces[ faceIdx ].vertexColors[0] = red;
-                this.faces[ faceIdx ].vertexColors[1] = red;
-                this.faces[ faceIdx ].vertexColors[2] = red;
-                this.faceVertexUvs[ 0 ].push( [ uvs[ i ].clone(), uvs[ i + 1 ].clone(), centerUV.clone() ] );
-                faceIdx++;
-            }
-        }
-        else {
-            for (j = 0; j < this.radialSegments - 2; j++) {
-                //a = this.grid[ 0 ][ 0 ];		// *** NOT NECESSARILY PLANAR ! ***
-                //b = this.grid[ 0 ][ j+1 ];
-                //c = this.grid[ 0][ j+2 ];
-                //To do: need to calcuate the uv
-                //uva = new THREE.Vector2( 0, j / this.radialSegments );
-                //uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
-                //uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
-                //uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
-                //this.faces.push(new THREE.Face3( a, b, c ));
-                this.faces.push(new THREE.Face3(0, j + 1, j + 2));
-                this.faces[ faceIdx ].vertexColors[0] = white;
-                this.faces[ faceIdx ].vertexColors[1] = white;
-                this.faces[ faceIdx ].vertexColors[2] = white;
-                faceIdx++;
-            }
-
-            //for the back cap
-
-            for (j = 0; j < this.radialSegments - 2; j++) {
-                //a = this.grid[ this.segments-1 ][ 0 ];		// *** NOT NECESSARILY PLANAR ! ***
-                //b = this.grid[ this.segments-1 ][ j+1 ];
-                //c = this.grid[ this.segments-1][ j+2 ];
-                //To do: need to calcuate the uv
-                //uva = new THREE.Vector2( 0, j / this.radialSegments );
-                //uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
-                //uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
-                //uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
-                //this.faces.push(new THREE.Face3( a, b, c ));
-                this.faces.push(new THREE.Face3(this.vertices.length - 1, this.vertices.length - j - 2, this.vertices.length - j - 3));
-                this.faces[ faceIdx ].vertexColors[0] = white;
-                this.faces[ faceIdx ].vertexColors[1] = white;
-                this.faces[ faceIdx ].vertexColors[2] = white;
-                faceIdx++;
-            }
-        }
+    for (j = 0; j < this.radialSegments - 2; j++) {
+        //a = this.grid[ 0 ][ 0 ];		// *** NOT NECESSARILY PLANAR ! ***
+        //b = this.grid[ 0 ][ j+1 ];
+        //c = this.grid[ 0][ j+2 ];
+        //To do: need to calcuate the uv
+        //uva = new THREE.Vector2( 0, j / this.radialSegments );
+        //uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
+        //uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
+        //uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
+        //this.faces.push(new THREE.Face3( a, b, c ));
+        this.faces.push(new THREE.Face3(0, j + 1, j + 2));
+        this.faces[ faceIdx ].vertexColors[0] = white;
+        this.faces[ faceIdx ].vertexColors[1] = white;
+        this.faces[ faceIdx ].vertexColors[2] = white;
+        faceIdx++;
     }
+
+    //for the back cap
+
+    for (j = 0; j < this.radialSegments - 2; j++) {
+        //a = this.grid[ this.segments-1 ][ 0 ];		// *** NOT NECESSARILY PLANAR ! ***
+        //b = this.grid[ this.segments-1 ][ j+1 ];
+        //c = this.grid[ this.segments-1][ j+2 ];
+        //To do: need to calcuate the uv
+        //uva = new THREE.Vector2( 0, j / this.radialSegments );
+        //uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
+        //uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
+        //uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
+        //this.faces.push(new THREE.Face3( a, b, c ));
+        this.faces.push(new THREE.Face3(this.vertices.length - 1, this.vertices.length - j - 2, this.vertices.length - j - 3));
+        this.faces[ faceIdx ].vertexColors[0] = white;
+        this.faces[ faceIdx ].vertexColors[1] = white;
+        this.faces[ faceIdx ].vertexColors[2] = white;
+        faceIdx++;
+    }
+
     this.computeCentroids();
     this.computeFaceNormals();
     this.computeVertexNormals();

@@ -166,7 +166,7 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed ) {
     this.computeCentroids();
     this.computeFaceNormals();
     this.computeVertexNormals();
-    this.computeBoundingBox();
+    //this.computeBoundingBox();
 };
 
 TubeGeometry.prototype = Object.create( THREE.Geometry.prototype );

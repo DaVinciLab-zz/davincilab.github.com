@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>three.js DMRI brain tractography</title>
+    <title>DMRI brain tractography</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <style>
@@ -106,7 +106,7 @@
 <script src="./js/three.js"></script>
 <script src="./js/FidxTubeGeometry.js"></script>
 <script src="./js/FiberIdxLoader.js"></script>
-<script src="./js/FiberGeoLoaderForTracing.js"></script>
+<script src="./js/FiberGeoLoader.js"></script>
 <script src="./js/MinmaxBoxGeometry.js"></script>
 <script src="./js/BoxLoader.js"></script>
 <script src="./js/Detector.js"></script>
@@ -209,12 +209,12 @@ function init() {
     }
 
     //Generate the data file
-    /*var fiberBundle =[];
+    var fiberBundle =[];
     fiberBundle.push('cc');
     //fiberBundle.push('cg');
     fiberBundle.push('cst');
     fiberBundle.push('ifo');
-    fiberBundle.push('ilf'); */
+    fiberBundle.push('ilf');
     var modelPath = './data/combine/s3.data';
 
     var boxPath1 = './data/Tracing/s3/';
@@ -227,8 +227,7 @@ function init() {
     var postBox3='/tumorbox_2_region_s3.data';
     var postFiberIdx ='/fiberidx_2000002_region_s3.data';
 
-    //var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
-    var bundleType ="cc";
+    var bundleType = fiberBundle[THREE.Math.randInt(0,3)];// if has cg (0,4)
     if(bundleType != null)
     {
         boxPath1 +=bundleType;
@@ -247,6 +246,25 @@ function init() {
         console.log( item, loaded, total );
 
     };
+
+    var loadIdx = new FiberIdxLoader(manager);
+    loadIdx.load( fiberIdx, function ( fiberIdx )
+    {
+        if(fiberIdx.length!==0 && loadIdx.center !== null)
+        {
+            var loader = new GeometryLoader(manager,fiberIdx );
+            loader.load( modelPath, function ( object ) {
+                object.position.x = -loader.center.x;
+                object.position.y = -loader.center.y;
+                object.position.z = -loader.center.z;
+                //group.add( object );
+                mainGroup.add(object);
+                loadedCount++;
+                setProgressBar(loadedCount, 4);
+            } );
+
+        }
+    });
     /*var material = new THREE.MeshBasicMaterial({
      color: 'yellow',wireframe: true,
      wireframeLinewidth: 3
@@ -307,176 +325,125 @@ function init() {
             mainGroup.add(mesh);
             loadedCount++;
             setProgressBar(loadedCount, 4);
-
-            var loaderbox2 = new BoxLoader(manager );
-            loaderbox2.load( boxPath2, function ( geometry ) {
-                if(geometry !== undefined && loaderbox2.center !== null)
-                {
-                    var material = new THREE.MeshBasicMaterial({
-                        transparent: true,
-                        opacity: 0.5,
-                        color: 'silver',
-                        side: THREE.BackSide
-                    });
-                    var mesh = new THREE.Mesh(geometry, material);
-                    //var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry, [material, material1]);
-                    mesh.position.x = loaderbox2.center.x;
-                    mesh.position.y = loaderbox2.center.y;
-                    mesh.position.z = loaderbox2.center.z ;
-                    //group.add(mesh);
-                    mainGroup.add(mesh);
-                    {//create the wireframe
-                        var verticeGeo = new THREE.Geometry();
-                        var vertices =  geometry.vertices;
-                        for(var i =0;i<4;++i)
-                        {
-                            verticeGeo.vertices.push(vertices[2*i]);
-                            verticeGeo.vertices.push(vertices[2*i+1]);
-                        }
-                        {
-                            verticeGeo.vertices.push(vertices[0]);
-                            verticeGeo.vertices.push(vertices[5]);
-                            verticeGeo.vertices.push(vertices[1]);
-                            verticeGeo.vertices.push(vertices[4]);
-                            verticeGeo.vertices.push(vertices[2]);
-                            verticeGeo.vertices.push(vertices[7]);
-                            verticeGeo.vertices.push(vertices[3]);
-                            verticeGeo.vertices.push(vertices[6]);
-                        }
-                        for(i =0;i<2;++i)
-                        {
-                            verticeGeo.vertices.push(vertices[i]);
-                            verticeGeo.vertices.push(vertices[i+2]);
-                            verticeGeo.vertices.push(vertices[4+i]);
-                            verticeGeo.vertices.push(vertices[4+i+2]);
-                        }
-                        var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
-                        var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                        line.position.x = loaderbox2.center.x;
-                        line.position.y = loaderbox2.center.y;
-                        line.position.z = loaderbox2.center.z ;
-                        mainGroup.add( line );
-                    }
-                    var spritey = makeTextSprite( "2 ",
-                            { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
-                    spritey.position.set(loaderbox2.center.x,loaderbox2.center.y ,loaderbox2.center.z );
-                    //group.add( spritey );
-                    mainGroup.add(spritey);
-                    loadedCount++;
-                    setProgressBar(loadedCount, 4);
-
-                    var loaderbox3 = new BoxLoader(manager );
-                    loaderbox3.load( boxPath3, function ( geometry ) {
-                        if(geometry !== undefined && loaderbox3.center !== null)
-                        {
-                            var material = new THREE.MeshBasicMaterial({
-                                transparent: true,
-                                opacity: 0.5,
-                                color: 'silver',
-                                side: THREE.BackSide
-                            });
-                            var mesh = new THREE.Mesh(geometry, material);
-                            //var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry, [material, material1]);
-                            mesh.position.x = loaderbox3.center.x;
-                            mesh.position.y = loaderbox3.center.y;
-                            mesh.position.z = loaderbox3.center.z ;
-                            //group.add(mesh);
-                            mainGroup.add(mesh);
-                            mainGroup.add(mesh);
-                            {//create the wireframe
-                                var verticeGeo = new THREE.Geometry();
-                                var vertices =  geometry.vertices;
-                                for(var i =0;i<4;++i)
-                                {
-                                    verticeGeo.vertices.push(vertices[2*i]);
-                                    verticeGeo.vertices.push(vertices[2*i+1]);
-                                }
-                                {
-                                    verticeGeo.vertices.push(vertices[0]);
-                                    verticeGeo.vertices.push(vertices[5]);
-                                    verticeGeo.vertices.push(vertices[1]);
-                                    verticeGeo.vertices.push(vertices[4]);
-                                    verticeGeo.vertices.push(vertices[2]);
-                                    verticeGeo.vertices.push(vertices[7]);
-                                    verticeGeo.vertices.push(vertices[3]);
-                                    verticeGeo.vertices.push(vertices[6]);
-                                }
-                                for(i =0;i<2;++i)
-                                {
-                                    verticeGeo.vertices.push(vertices[i]);
-                                    verticeGeo.vertices.push(vertices[i+2]);
-                                    verticeGeo.vertices.push(vertices[4+i]);
-                                    verticeGeo.vertices.push(vertices[4+i+2]);
-                                }
-                                var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
-                                var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
-                                line.position.x = loaderbox3.center.x;
-                                line.position.y = loaderbox3.center.y;
-                                line.position.z = loaderbox3.center.z ;
-                                mainGroup.add( line );
-                            }
-                            var spritey = makeTextSprite( "3 ",
-                                    { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
-                            spritey.position.set(loaderbox3.center.x,loaderbox3.center.y ,loaderbox3.center.z );
-                            //group.add( spritey );
-                            mainGroup.add(spritey);
-                            loadedCount++;
-                            setProgressBar(loadedCount, 4);
-
-                            var loadIdx = new FiberIdxLoader(manager);
-                            loadIdx.load( fiberIdx, function ( fiberIdx )
-                            {
-                                if(fiberIdx.length!==0 && loadIdx.center !== null)
-                                {
-                                    var loader = new GeometryLoader(manager,fiberIdx, loaderbox, loaderbox2, loaderbox3 );
-
-                                    loader.load( modelPath, function ( object ) {
-                                        object.position.x = -loader.center.x;
-                                        object.position.y = -loader.center.y;
-                                        object.position.z = -loader.center.z;
-                                        //group.add( object );
-                                        mainGroup.add(object);
-                                        loadedCount++;
-                                        setProgressBar(loadedCount, 4);
-
-                                        var sphereNumS = loader.startPoint.length;
-                                        for(var k=0; k<sphereNumS;++k)
-                                        {
-                                            var SphereGeometry = new THREE.SphereGeometry(0.5,20,20);
-                                            var SphereMaterial = new THREE.MeshPhongMaterial({color:0xFF0000});
-                                            var SphereMesh =new THREE.Mesh(SphereGeometry,SphereMaterial);
-                                            //SphereMesh.position = loader.startPoint[k];
-                                            SphereMesh.position.x = loader.startPoint[k].x-loader.center.x;
-                                            SphereMesh.position.y = loader.startPoint[k].y-loader.center.y;
-                                            SphereMesh.position.z = loader.startPoint[k].z-loader.center.z;
-                                            mainGroup.add(SphereMesh);
-                                        }
-
-                                        var sphereNumE = loader.endPoint.length;
-                                        for(k=0; k<sphereNumE;++k)
-                                        {
-                                            var SphereGeometry1 = new THREE.SphereGeometry(0.5,20,20);
-                                            var SphereMaterial1 = new THREE.MeshPhongMaterial({color:0x00FFFF});
-                                            var SphereMesh1 = new THREE.Mesh(SphereGeometry1,SphereMaterial1);
-                                            //SphereMesh.position = loader.startPoint[k];
-                                            SphereMesh1.position.x = loader.endPoint[k].x-loader.center.x;
-                                            SphereMesh1.position.y = loader.endPoint[k].y-loader.center.y;
-                                            SphereMesh1.position.z = loader.endPoint[k].z-loader.center.z;
-                                            mainGroup.add(SphereMesh1);
-                                        }
-                                    } );
-
-                                }
-                            });
-                        }
-
-                    } );
-                }
-            } );
         }
     } );
-
-
+    var loaderbox2 = new BoxLoader(manager );
+    loaderbox2.load( boxPath2, function ( geometry ) {
+        if(geometry !== undefined && loaderbox2.center !== null)
+        {
+            var material = new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0.5,
+                color: 'silver',
+                side: THREE.BackSide
+            });
+            var mesh = new THREE.Mesh(geometry, material);
+            //var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry, [material, material1]);
+            mesh.position.x = loaderbox2.center.x;
+            mesh.position.y = loaderbox2.center.y;
+            mesh.position.z = loaderbox2.center.z ;
+            //group.add(mesh);
+            mainGroup.add(mesh);
+            {//create the wireframe
+                var verticeGeo = new THREE.Geometry();
+                var vertices =  geometry.vertices;
+                for(var i =0;i<4;++i)
+                {
+                    verticeGeo.vertices.push(vertices[2*i]);
+                    verticeGeo.vertices.push(vertices[2*i+1]);
+                }
+                {
+                    verticeGeo.vertices.push(vertices[0]);
+                    verticeGeo.vertices.push(vertices[5]);
+                    verticeGeo.vertices.push(vertices[1]);
+                    verticeGeo.vertices.push(vertices[4]);
+                    verticeGeo.vertices.push(vertices[2]);
+                    verticeGeo.vertices.push(vertices[7]);
+                    verticeGeo.vertices.push(vertices[3]);
+                    verticeGeo.vertices.push(vertices[6]);
+                }
+                for(i =0;i<2;++i)
+                {
+                    verticeGeo.vertices.push(vertices[i]);
+                    verticeGeo.vertices.push(vertices[i+2]);
+                    verticeGeo.vertices.push(vertices[4+i]);
+                    verticeGeo.vertices.push(vertices[4+i+2]);
+                }
+                var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
+                var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
+                line.position.x = loaderbox2.center.x;
+                line.position.y = loaderbox2.center.y;
+                line.position.z = loaderbox2.center.z ;
+                mainGroup.add( line );
+            }
+            var spritey = makeTextSprite( "2 ",
+                    { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
+            spritey.position.set(loaderbox2.center.x,loaderbox2.center.y ,loaderbox2.center.z );
+            //group.add( spritey );
+            mainGroup.add(spritey);
+            loadedCount++;
+            setProgressBar(loadedCount, 4);
+        }
+    } );
+    var loaderbox3 = new BoxLoader(manager );
+    loaderbox3.load( boxPath3, function ( geometry ) {
+        if(geometry !== undefined && loaderbox3.center !== null)
+        {
+            var material = new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0.5,
+                color: 'silver',
+                side: THREE.BackSide
+            });
+            var mesh = new THREE.Mesh(geometry, material);
+            //var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry, [material, material1]);
+            mesh.position.x = loaderbox3.center.x;
+            mesh.position.y = loaderbox3.center.y;
+            mesh.position.z = loaderbox3.center.z ;
+            //group.add(mesh);
+            mainGroup.add(mesh);
+            mainGroup.add(mesh);
+            {//create the wireframe
+                var verticeGeo = new THREE.Geometry();
+                var vertices =  geometry.vertices;
+                for(var i =0;i<4;++i)
+                {
+                    verticeGeo.vertices.push(vertices[2*i]);
+                    verticeGeo.vertices.push(vertices[2*i+1]);
+                }
+                {
+                    verticeGeo.vertices.push(vertices[0]);
+                    verticeGeo.vertices.push(vertices[5]);
+                    verticeGeo.vertices.push(vertices[1]);
+                    verticeGeo.vertices.push(vertices[4]);
+                    verticeGeo.vertices.push(vertices[2]);
+                    verticeGeo.vertices.push(vertices[7]);
+                    verticeGeo.vertices.push(vertices[3]);
+                    verticeGeo.vertices.push(vertices[6]);
+                }
+                for(i =0;i<2;++i)
+                {
+                    verticeGeo.vertices.push(vertices[i]);
+                    verticeGeo.vertices.push(vertices[i+2]);
+                    verticeGeo.vertices.push(vertices[4+i]);
+                    verticeGeo.vertices.push(vertices[4+i+2]);
+                }
+                var materialLine = new THREE.LineBasicMaterial({ color: 'yellow' });
+                var line = new THREE.Line( verticeGeo, materialLine,THREE.LinePieces );
+                line.position.x = loaderbox3.center.x;
+                line.position.y = loaderbox3.center.y;
+                line.position.z = loaderbox3.center.z ;
+                mainGroup.add( line );
+            }
+            var spritey = makeTextSprite( "3 ",
+                    { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
+            spritey.position.set(loaderbox3.center.x,loaderbox3.center.y ,loaderbox3.center.z );
+            //group.add( spritey );
+            mainGroup.add(spritey);
+            loadedCount++;
+            setProgressBar(loadedCount, 4);
+        }
+    } );
     //scene.add(group);
     group.add(mainGroup);
 
@@ -499,8 +466,6 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
-
-    controls.handleResize();
 
     render();
 
@@ -566,7 +531,7 @@ function rotateMatrix(rotateStart, rotateEnd)
     if ( angle )
     {
         axis.crossVectors( rotateStart, rotateEnd ).normalize();
-        angle *= 0.01;            //Here we could define rotate speed
+        angle *= 0.01*2;            //Here we could define rotate speed
         quaternion.setFromAxisAngle( axis, angle );
     }
     return  quaternion;
@@ -607,7 +572,7 @@ function onMouseWheel( event ) {
 
     }
 
-    zoomValue += delta /10;
+    zoomValue += delta ;
 
 }
 

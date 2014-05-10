@@ -2,10 +2,13 @@
  * Created by Yongnanzhu on 4/17/2014.
  */
 /**
+ * Created by Yongnanzhu on 4/17/2014.
+ */
+/**
  * @author mrdoob / http://mrdoob.com/
  */
 
-GeometryLoader = function ( manager, fiberIdx ) {
+GeometryLoader = function ( manager, fiberIdx, loaderbox, loaderbox2, loaderbox3 ) {
 
     this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
     //----------------------------------
@@ -13,6 +16,13 @@ GeometryLoader = function ( manager, fiberIdx ) {
     //this.maxColor = null;
     this.center = null;
     this.fiberIdx = fiberIdx;
+
+    this.box1 = loaderbox;
+    this.box2 = loaderbox2;
+    this.box3 = loaderbox3;
+
+    this.startPoint =[];
+    this.endPoint =[];
     //-----------------------------------
 };
 GeometryLoader.prototype = {
@@ -56,18 +66,37 @@ GeometryLoader.prototype = {
             indexEnd = this.fiberIdx[ fiberLength-1];
             var count =0;
         }
-
+        function pointInBox(p,boxMin,boxMax)
+        {
+            return ( p.x >= (boxMin.x+112) && p.x <= (boxMax.x+112)
+                && p.y >= (boxMin.y+124) && p.y <= (boxMax.y+124)
+                && p.z >= (boxMin.z+70)  && p.z <= (boxMax.z+70) );
+        }
         for(var i=0;i<totalFiberNum;i++)
         {
             var geometry;
             var totalVertexNum = lines[startNum];
             var vertexPosition = [];
 
-            var yellowState= false;
+            var ChoosenState= false;
+            if(i >= indexbegin && i<=indexEnd)
+            {
+                if(this.fiberIdx[count] == i)
+                {
+                    ChoosenState = true;
+
+                    count ++;
+                    if(count<fiberLength)
+                        indexbegin = this.fiberIdx[count];
+                    else
+                        indexbegin = indexEnd+1;
+                }
+            }
             for(var j = 1;j<=totalVertexNum;j++)
             {
                 var vals = lines[startNum+j].split(/\s+/);
                 vertexPosition.push( new THREE.Vector3( parseFloat(vals[0]), parseFloat(vals[1]), parseFloat(vals[2]) ) );
+
                 positionminx = Math.min(positionminx, parseFloat(vals[0]));
                 positionminy = Math.min(positionminy, parseFloat(vals[1]));
                 positionminz = Math.min(positionminz, parseFloat(vals[2]));
@@ -75,34 +104,37 @@ GeometryLoader.prototype = {
                 positionmaxx = Math.max(positionmaxx, parseFloat(vals[0]));
                 positionmaxy = Math.max(positionmaxy, parseFloat(vals[1]));
                 positionmaxz = Math.max(positionmaxz, parseFloat(vals[2]));
-
-                /*vertexColor.push( new THREE.Vector3( parseFloat(vals[3]), parseFloat(vals[4]), parseFloat(vals[5]) ) );
-                colorminx = Math.min(colorminx, parseFloat(vals[3]));
-                colorminy = Math.min(colorminy, parseFloat(vals[4]));
-                colorminz = Math.min(colorminz, parseFloat(vals[5]));
-
-                colormaxx = Math.max(colormaxx, parseFloat(vals[3]));
-                colormaxy = Math.max(colormaxy, parseFloat(vals[4]));
-                colormaxz = Math.max(colormaxz, parseFloat(vals[5]));*/
             }
+            if(ChoosenState === true)
+            {
+                if( pointInBox( vertexPosition[0],this.box1.minVertex, this.box1.maxVertex )
+                    || pointInBox( vertexPosition[0],this.box2.minVertex, this.box2.maxVertex )
+                    || pointInBox(vertexPosition[0],this.box3.minVertex, this.box3.maxVertex ) )
+                {
+                    this.endPoint.push(vertexPosition[0]);
+                    this.startPoint.push(vertexPosition[vertexPosition.length -2]);
+                }
+                /*else
+                {
+                    this.startPoint.push(vertexPosition[0]);
+                    this.endPoint.push(vertexPosition[vertexPosition.length -2]);
+                }*/
+
+
+                if( pointInBox( vertexPosition[vertexPosition.length -2],this.box1.minVertex, this.box1.maxVertex )
+                    || pointInBox( vertexPosition[vertexPosition.length -2],this.box2.minVertex, this.box2.maxVertex )
+                    || pointInBox(vertexPosition[vertexPosition.length -2],this.box3.minVertex, this.box3.maxVertex ) )
+                {
+                    this.endPoint.push(vertexPosition[vertexPosition.length -2]);
+                    this.startPoint.push(vertexPosition[0]);
+                }
+               // else
+               //     this.startPoint.push(vertexPosition[vertexPosition.length -2]);
+
+            }
+
             this.center = new THREE.Vector3((positionminx + positionmaxx)/2.0,
                     (positionminy + positionmaxy)/2.0, (positionminz + positionmaxz)/2.0);
-            //this.minColor =  new THREE.Color(colorminx, colorminy, colorminz);
-            //this.maxColor =  new THREE.Color(colormaxx, colormaxy, colormaxz);
-
-            if(i >= indexbegin && i<=indexEnd)
-            {
-                if(this.fiberIdx[count] == i)
-                {
-                     yellowState = true;
-
-                     count ++;
-                    if(count<fiberLength)
-                        indexbegin = this.fiberIdx[count];
-                    else
-                        indexbegin = indexEnd+1;
-                }
-            }
 
             geometry = new TubeGeometry(
                 vertexPosition,
@@ -110,9 +142,8 @@ GeometryLoader.prototype = {
                 0.5,
                 6,
                 false,
-                yellowState
+                ChoosenState
             );
-            yellowState = false;
             geometry.uuid = i;
             material = new THREE.MeshPhongMaterial({vertexColors: THREE.VertexColors});
             //material = new THREE.MeshPhongMaterial();

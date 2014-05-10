@@ -22,7 +22,58 @@
     <favorites_list name="davincilab.github.com" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="brain_Tractography_Task1.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/brain_Tractography_Task1.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-16.862068" vertical-offset="1191" max-vertical-offset="2760">
+              <caret line="70" column="46" selection-start-line="70" selection-start-column="46" selection-end-line="70" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="brainTractography_Tracing_task2.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.40689656" vertical-offset="5898" max-vertical-offset="17160">
+              <caret line="231" column="40" selection-start-line="231" selection-start-column="26" selection-end-line="231" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="brain_Tractography_Task2.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/brain_Tractography_Task2.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.448276" vertical-offset="1584" max-vertical-offset="2760">
+              <caret line="75" column="61" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="brain_Tractography_Task3.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/brain_Tractography_Task3.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-30.62069" vertical-offset="1368" max-vertical-offset="2760">
+              <caret line="94" column="139" selection-start-line="94" selection-start-column="139" selection-end-line="94" selection-end-column="139" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="brain_Tractography_Task4.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/brain_Tractography_Task4.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-11.5172415" vertical-offset="1346" max-vertical-offset="2760">
+              <caret line="70" column="61" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -45,6 +96,18 @@
         <option value="$PROJECT_DIR$/brainTractography_LesionArea_task3.html" />
         <option value="$PROJECT_DIR$/data/Lesion/lesion3.data" />
         <option value="$PROJECT_DIR$/questionnaire.html" />
+        <option value="$PROJECT_DIR$/js/FiberGeoLoader.js" />
+        <option value="$PROJECT_DIR$/js/SameBundleTubePointGeometry.js" />
+        <option value="$PROJECT_DIR$/brainTractography_Tracing_task.html" />
+        <option value="$PROJECT_DIR$/brainTractography_Tracing_task1.html" />
+        <option value="$PROJECT_DIR$/brainTractography_Tracing_task2.html" />
+        <option value="$PROJECT_DIR$/brainTractography_Tracing_task3.html" />
+        <option value="$PROJECT_DIR$/brainTractography_Tracing_task4.html" />
+        <option value="$PROJECT_DIR$/brainTractography_LesionArea_task.html" />
+        <option value="$PROJECT_DIR$/brain_Tractography_Task3.html" />
+        <option value="$PROJECT_DIR$/brain_Tractography_Task4.html" />
+        <option value="$PROJECT_DIR$/brain_Tractography_Task1.html" />
+        <option value="$PROJECT_DIR$/brain_Tractography_Task2.html" />
       </list>
     </option>
   </component>
@@ -80,6 +143,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -114,7 +178,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -128,6 +191,11 @@
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Yongnanzhu\Documents\GitHub\davincilab.github.com\js" />
+    </key>
   </component>
   <component name="RunManager" selected="JavaScript Debug.brainTractography_LesionArea_task3.html">
     <configuration default="false" name="brainTractography_LesionArea_task1.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" uri="http://localhost:63342/davincilab.github.com/brainTractography_LesionArea_task1.html">
@@ -232,16 +300,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28593996" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28593996" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47243243" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -275,11 +343,58 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2088" max-vertical-offset="17136">
+          <caret line="108" column="18" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FiberGeoLoader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2544" max-vertical-offset="3240">
+          <caret line="106" column="32" selection-start-line="106" selection-start-column="32" selection-end-line="106" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/SameBundleTubePointGeometry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4080" max-vertical-offset="8040">
+          <caret line="170" column="28" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2016" max-vertical-offset="16320">
+          <caret line="94" column="73" selection-start-line="94" selection-start-column="7" selection-end-line="94" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FiberGeoLoader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2160" max-vertical-offset="3240">
+          <caret line="106" column="32" selection-start-line="106" selection-start-column="32" selection-end-line="106" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/SameBundleTubePointGeometry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="4080" max-vertical-offset="8040">
+          <caret line="170" column="28" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task3.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6671" max-vertical-offset="12816">
           <caret line="294" column="58" selection-start-line="294" selection-start-column="51" selection-end-line="294" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -287,7 +402,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="6815" max-vertical-offset="12816">
           <caret line="294" column="58" selection-start-line="294" selection-start-column="51" selection-end-line="294" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -302,21 +416,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="38083" max-vertical-offset="906432">
           <caret line="1593" column="19" selection-start-line="1593" selection-start-column="19" selection-end-line="1593" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/SameBundleTubePointGeometry.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6450216" vertical-offset="4910" max-vertical-offset="7992">
-          <caret line="219" column="13" selection-start-line="219" selection-start-column="13" selection-end-line="219" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.37931" vertical-offset="5642" max-vertical-offset="12816">
-          <caret line="244" column="66" selection-start-line="244" selection-start-column="66" selection-end-line="244" selection-end-column="66" />
         </state>
       </provider>
     </entry>
@@ -338,20 +437,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4891775" vertical-offset="2558" max-vertical-offset="3504">
           <caret line="118" column="67" selection-start-line="118" selection-start-column="67" selection-end-line="118" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.62069" vertical-offset="5472" max-vertical-offset="12816">
-          <caret line="236" column="105" selection-start-line="236" selection-start-column="10" selection-end-line="236" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.793103" vertical-offset="5567" max-vertical-offset="12816">
-          <caret line="245" column="42" selection-start-line="0" selection-start-column="0" selection-end-line="528" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -390,26 +475,219 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.44023" vertical-offset="10919" max-vertical-offset="12816">
-          <caret line="294" column="58" selection-start-line="294" selection-start-column="51" selection-end-line="294" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/questionnaire.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5241379" vertical-offset="0" max-vertical-offset="870">
           <caret line="19" column="52" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FiberGeoLoader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2160" max-vertical-offset="3240">
+          <caret line="106" column="32" selection-start-line="106" selection-start-column="32" selection-end-line="106" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/SameBundleTubePointGeometry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="3805" max-vertical-offset="7992">
+          <caret line="170" column="28" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FiberIdxLoaderForSameBundle.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.12124583" vertical-offset="109" max-vertical-offset="1008">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FiberGeoLoaderForTracing.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3936">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/BoxLoader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1368">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FiberIdxLoader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1032">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/FidxTubeGeometry.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.744161" vertical-offset="7861" max-vertical-offset="8760">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.62069" vertical-offset="4968" max-vertical-offset="17136">
+          <caret line="215" column="46" selection-start-line="215" selection-start-column="32" selection-end-line="215" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.965517" vertical-offset="4938" max-vertical-offset="17160">
+          <caret line="219" column="61" selection-start-line="219" selection-start-column="40" selection-end-line="219" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.103448" vertical-offset="4824" max-vertical-offset="17160">
+          <caret line="212" column="73" selection-start-line="212" selection-start-column="28" selection-end-line="212" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.137931" vertical-offset="4983" max-vertical-offset="17160">
+          <caret line="209" column="46" selection-start-line="209" selection-start-column="0" selection-end-line="209" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.344828" vertical-offset="5642" max-vertical-offset="12816">
+          <caret line="250" column="34" selection-start-line="0" selection-start-column="0" selection-end-line="528" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-27.62069" vertical-offset="11871" max-vertical-offset="12816">
+          <caret line="528" column="0" selection-start-line="528" selection-start-column="0" selection-end-line="528" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.241379" vertical-offset="5567" max-vertical-offset="12816">
+          <caret line="254" column="7" selection-start-line="254" selection-start-column="7" selection-end-line="254" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-18.241379" vertical-offset="10919" max-vertical-offset="12816">
+          <caret line="477" column="58" selection-start-line="477" selection-start-column="1" selection-end-line="477" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_LesionArea_task4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.068966" vertical-offset="5472" max-vertical-offset="12816">
+          <caret line="245" column="52" selection-start-line="245" selection-start-column="52" selection-end-line="245" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BackgroundSurvey.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="960">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Training.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.586206" vertical-offset="951" max-vertical-offset="1800">
+          <caret line="50" column="10" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Training.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.29682" vertical-offset="10440" max-vertical-offset="16032">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_SameBundleTask2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.141343" vertical-offset="7344" max-vertical-offset="10152">
+          <caret line="18" column="49" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_SameBundleTask.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.896552" vertical-offset="0" max-vertical-offset="10104">
+          <caret line="18" column="66" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/brain_Tractography_Task4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60793465" vertical-offset="1879" max-vertical-offset="2736">
-          <caret line="100" column="6" selection-start-line="99" selection-start-column="4" selection-end-line="101" selection-end-column="8" />
+        <state vertical-scroll-proportion="-11.5172415" vertical-offset="1346" max-vertical-offset="2760">
+          <caret line="70" column="61" selection-start-line="70" selection-start-column="61" selection-end-line="70" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brain_Tractography_Task3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-30.62069" vertical-offset="1368" max-vertical-offset="2760">
+          <caret line="94" column="139" selection-start-line="94" selection-start-column="139" selection-end-line="94" selection-end-column="139" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brain_Tractography_Task2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.448276" vertical-offset="1584" max-vertical-offset="2760">
+          <caret line="75" column="61" selection-start-line="75" selection-start-column="51" selection-end-line="75" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brain_Tractography_Task1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.862068" vertical-offset="1191" max-vertical-offset="2760">
+          <caret line="70" column="46" selection-start-line="70" selection-start-column="46" selection-end-line="70" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/brainTractography_Tracing_task2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.40689656" vertical-offset="5898" max-vertical-offset="17160">
+          <caret line="231" column="40" selection-start-line="231" selection-start-column="26" selection-end-line="231" selection-end-column="26" />
           <folding />
         </state>
       </provider>
