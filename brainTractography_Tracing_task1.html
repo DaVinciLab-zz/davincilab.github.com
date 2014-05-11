@@ -500,8 +500,6 @@ function onWindowResize() {
 
     renderer.setSize( window.innerWidth, window.innerHeight );
 
-    controls.handleResize();
-
     render();
 
 }
@@ -566,7 +564,7 @@ function rotateMatrix(rotateStart, rotateEnd)
     if ( angle )
     {
         axis.crossVectors( rotateStart, rotateEnd ).normalize();
-        angle *= 0.01;            //Here we could define rotate speed
+        angle *= 0.01*2;            //Here we could define rotate speed
         quaternion.setFromAxisAngle( axis, angle );
     }
     return  quaternion;
@@ -607,7 +605,7 @@ function onMouseWheel( event ) {
 
     }
 
-    zoomValue += delta /10;
+    zoomValue += delta;
 
 }
 
