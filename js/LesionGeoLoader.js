@@ -58,7 +58,7 @@ GeometryLoader.prototype = {
             var Split = false;
             var Second = false;
             //var vertexColor = [];
-            for(var j = 1;j<=totalVertexNum;j++)
+            for(var j = 1;j<=totalVertexNum;j+=2)
             {
                 var vals = lines[startNum+j].split(/\s+/);
 

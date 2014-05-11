@@ -50,7 +50,7 @@ GeometryLoader.prototype = {
             var geometry;
             var totalVertexNum = lines[startNum];
             var vertexPosition = [];
-            for(var j = 1;j<=totalVertexNum;j++)
+            for(var j = 1;j<=totalVertexNum;j+=2)
             {
                 var vals = lines[startNum+j].split(/\s+/);
                 vertexPosition.push( new THREE.Vector3( parseFloat(vals[0]), parseFloat(vals[1]), parseFloat(vals[2]) ) );
@@ -68,7 +68,7 @@ GeometryLoader.prototype = {
                     (positionminy + positionmaxy)/2.0, (positionminz + positionmaxz)/2.0);
             geometry = new TubeGeometry(
                 vertexPosition,
-                    totalVertexNum -1,
+                    vertexPosition.length -1,
                 0.5,
                 6,
                 false
