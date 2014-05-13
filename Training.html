@@ -2,9 +2,20 @@
 <head>
     <title>Sketch brain fiber tracts</title>
     <link rel=stylesheet href="css/index.css"/>
+    <script src="js/jqueryLib/jquery-1.10.2.js"></script>
 </head>
 <body>
+<script>
+    $(document).ready(function() {
+        $('iframe').hide();
+        $("#frame").click(function() {
+            $('iframe').text('jQuery') // Sets text to jQuery and then returns $('a')
+                    .attr('src','https://davincilab.github.io/brainTractography_Training.html') // Sets the href attribute and then returns $('a')
+                    .addClass('jQuery').show(); // Sets class and then returns $('a')
+        });
+    });
 
+</script>
 <div class="bigTitle">Part 2: Training </div>
 <br/>
 <div class="centerBox">
@@ -28,8 +39,14 @@
         <li>Inferior frontaloccipital fasciculus or IFO</li>
         <li>Inferior longitudinal occipitotemporal fasciculus or ILF</li>
     </ul>
+    <iframe src="" width="100%" height="100%" align="middle">
+        Your browser doesn't support 'iframe'. Click here to see the referenced
+        URL in a new browser instance: &lt;a class="link" href="https://davincilab.github.io/brainTractography_Training.html"
+        target="_blank"&gt;link&lt;/a&gt;
+    </iframe>
     <p class ="superText2">
-        These structures are displayed below. You can rotate the model by holding down the left mouse button and dragging.
+        You can click <button id="frame">Load</button> to load these structures.
+        You can rotate the model by holding down the left mouse button and dragging.
         You can also zoom in and out using the mouse wheel (or the middle button).
         Please try it now.
         </p>
@@ -47,12 +64,7 @@
         (perhaps due to the low-resolution image sampling).
         All tasks that you will be performing will be related to these five bundles only.
     </p>
-    <br/>
-    <iframe src="https://davincilab.github.io/brainTractography_Training.html" width="100%" height="100%" align="middle">
-        Your browser doesn't support 'iframe'. Click here to see the referenced
-        URL in a new browser instance: &lt;a class="link" href="https://davincilab.github.io/brainTractography_Training.html"
-        target="_blank"&gt;link&lt;/a&gt;
-    </iframe>
+
 
 
     <!--<p class ="superText2">Please try to learn the spatial structure as much as you can. Once you are done, please click
@@ -60,9 +72,10 @@
         <a href="brain_Tractography_Task2.html"><2></a>                                 or
         <a href="brain_Tractography_Task3.html"><3></a> or
         <a href="brain_Tractography_Task4.html"><4></a> using the number we just gave you.
-       </p> -->
+       </p> --> <!--<a href="task_Type.html"> Experiment </a>-->
     <p class ="superText2">Please try to learn the spatial structure as much as you can. Once you are done, please click
-         <a href="task_Type.html"> Experiment </a> to begin the formal task.
+        <a href="task_Type.html"><button type="button">Experiment</button></a>to begin the formal task.
+    </p>
     <hr/>
     <br/>
 </div>
