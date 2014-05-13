@@ -138,14 +138,7 @@ function init() {
 
     container = document.createElement( 'div' );
     document.body.appendChild( container );
-    var info = document.createElement( 'div' );
-    info.style.position = 'absolute';
-    info.style.top = '15px';
-    info.style.width = '100%';
-    info.style.textAlign = 'center';
-    info.innerHTML = 'DMRI brain tractography-----FA value comparison';
 
-    container.appendChild( info );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 
     camera.position.z = 220;

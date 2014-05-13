@@ -138,14 +138,7 @@ function init() {
 
     container = document.createElement( 'div' );
     document.body.appendChild( container );
-    var info = document.createElement( 'div' );
-    info.style.position = 'absolute';
-    info.style.top = '15px';
-    info.style.width = '100%';
-    info.style.textAlign = 'center';
-    info.innerHTML = 'DMRI brain tractography-----FA value comparison';
 
-    container.appendChild( info );
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 
     camera.position.z = 220;
@@ -261,6 +254,20 @@ function init() {
             if(loader.minColor!== undefined && loader.maxColor!== undefined)
             {
                 var barGroup = new THREE.Object3D();
+
+                //Draw ticks
+                for(var k=0; k <4; ++k)
+                {
+                    var tickpoint1 = new THREE.Vector3(1, -40 +(k+1)*16,0);
+                    var tickpoint2 = new THREE.Vector3(2, -40+(k+1)*16,0);
+
+                    var lineGeo = new THREE.Geometry();
+                    lineGeo.vertices.push(tickpoint1);
+                    lineGeo.vertices.push(tickpoint2);
+                    var line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial( { linewidth: 10, color: 0x000000 } ) ) ;
+                    //line.position.set(120, 0, 0);
+                    barGroup.add(line);
+                }
                 //Draw Color Bar
                 var barsquareGeometry = new THREE.Geometry();
                 barsquareGeometry.vertices.push(new THREE.Vector3(-2,  40, 0.0));
@@ -283,19 +290,6 @@ function init() {
                 var squareMesh = new THREE.Mesh(barsquareGeometry, squareMaterial);
                 barGroup.add(squareMesh);
 
-                //Draw ticks
-                for(var k=0; k <4; ++k)
-                {
-                    var tickpoint1 = new THREE.Vector3(1, -40 +(k+1)*16,0);
-                    var tickpoint2 = new THREE.Vector3(2, -40+(k+1)*16,0);
-
-                    var lineGeo = new THREE.Geometry();
-                    lineGeo.vertices.push(tickpoint1);
-                    lineGeo.vertices.push(tickpoint2);
-                    var line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial( { linewidth: 10, color: 0x000000 } ) ) ;
-                    //line.position.set(120, 0, 0);
-                    barGroup.add(line);
-                }
                 // text label
                 for(k=0; k<=5; ++k)
                 {

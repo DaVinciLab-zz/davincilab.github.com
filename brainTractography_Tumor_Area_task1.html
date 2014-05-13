@@ -136,14 +136,7 @@
 
         container = document.createElement( 'div' );
         document.body.appendChild( container );
-        var info = document.createElement( 'div' );
-        info.style.position = 'absolute';
-        info.style.top = '15px';
-        info.style.width = '100%';
-        info.style.textAlign = 'center';
-        info.innerHTML = 'DMRI brain tractography-----Tumor Area Drawing Task';
 
-        container.appendChild( info );
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
         camera.position.z = 220;
 
@@ -207,20 +200,20 @@
         var modelPath = './data/combine/s2.data';
 
         //Tumor area
-        //var material = new THREE.MeshNormalMaterial();
-        var material = new THREE.MeshPhongMaterial();
+        var material = new THREE.MeshNormalMaterial();
+        //var material = new THREE.MeshPhongMaterial();
         var sphereGeometry = new THREE.SphereGeometry(6, 32, 16);
         var tumor = new THREE.Mesh( sphereGeometry, material );
         var tumorPositionx = -12; //cst
         var tumorPositiony = 5;
         var tumorPositionz = 22;
         tumor.position.set(tumorPositionx, tumorPositiony, tumorPositionz);
-        var spritey = makeTextSprite( "tumor area ",
+        /*var spritey = makeTextSprite( "tumor area ",
                 { fontsize:12, borderColor: {r:255, g:0, b:0, a:1.0}, backgroundColor: {r:255, g:100, b:100, a:0.8} } );
         spritey.position.set(tumorPositionx,tumorPositiony ,tumorPositionz );
         //group.add( spritey );
         //group.add( tumor );
-        mainGroup.add(spritey);
+        mainGroup.add(spritey);*/
         mainGroup.add(tumor);
         loadedCount++;
         setProgressBar(loadedCount, 2);

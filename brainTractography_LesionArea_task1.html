@@ -139,14 +139,7 @@
 
         container = document.createElement( 'div' );
         document.body.appendChild( container );
-        var info = document.createElement( 'div' );
-        info.style.position = 'absolute';
-        info.style.top = '15px';
-        info.style.width = '100%';
-        info.style.textAlign = 'center';
-        info.innerHTML = 'DMRI brain tractography-----Leasion Area';
 
-        container.appendChild( info );
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
         camera.position.z = 220;
 
@@ -249,7 +242,7 @@
                         //group.add(object);
                         mainGroup.add(object);
                         loadedCount++;
-                        setProgressBar(loadedCount, 3);
+                        setProgressBar(loadedCount, 2);
                         {//create the wireframe
                             var verticeGeo = new THREE.Geometry();
                             var vertices =  geometry.vertices;
@@ -282,8 +275,9 @@
                             line.position.z = loaderbox.center.z-loader.center.z ;
                             mainGroup.add( line );
                             loadedCount++;
-                            setProgressBar(loadedCount, 3);
+                            setProgressBar(loadedCount, 2);
                         }
+                        /*
                         var spritey = makeTextSprite( " lesion area ",
                                 { fontsize:12, borderColor: {r:255, g:255, b:0, a:1.0}, backgroundColor: {r:255, g:0, b:0, a:0.8} } );
                         //spritey.position = loaderbox.center;
@@ -292,7 +286,7 @@
                         spritey.position.z = loaderbox.center.z-loader.center.z ;
                         mainGroup.add(spritey);
                         loadedCount++;
-                        setProgressBar(loadedCount, 3);
+                        setProgressBar(loadedCount, 3);  */
                     }
                 } );
 
