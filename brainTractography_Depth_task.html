@@ -109,8 +109,9 @@
 <script src="./js/stats.min.js"></script>
 
 <script>
-if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
-var container, stats;
+if ( ! Detector.webgl )
+    Detector.addGetWebGLMessage();
+var container;
 
 var camera, scene, renderer;
 var group;
@@ -293,11 +294,6 @@ function init() {
 
     container.appendChild( renderer.domElement );
 
-    stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
-    stats.domElement.style.zIndex = 100;
-    container.appendChild( stats.domElement );
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
     document.addEventListener( 'mousewheel', onMouseWheel, false );
@@ -440,7 +436,6 @@ function update(){
 function render() {
 
     renderer.render( scene, camera );
-    stats.update();
 
 }
 
