@@ -71,7 +71,7 @@
             '        You drawing should help in showing the depth relation of tube(s). we choose two bundle (CST and CC) for you,'+
             ' so that you can assess your drawing of depicting the depth relation of the two bundles and the individual tube in each bundle.'
         ];
-        var value;
+        var value=null;
         var p_links = [
                 '',
                 'brainTractography_FA_task',
@@ -87,8 +87,20 @@
         $( "select" ).change( function() {value =$( '#taskType' ).val()} );
 
         $("button").click(function() {
-            count ++;
-            if(count<6)
+            if(value !== null)
+            {   if(value ==='0')
+                {
+                    alert("Please Choose a valid type number, which is between [1,4]!")
+                }
+                else
+                   count ++;
+            }
+            else
+            {
+                alert("Please Choose a task type!")
+            }
+
+            if(count>0 && count<6)
             {
 
                 $('#title').text(p_title[count]);

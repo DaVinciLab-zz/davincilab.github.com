@@ -26,8 +26,8 @@
       <file leaf-file-name="brainTractography_FA_task1.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/brainTractography_FA_task1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4413793" vertical-offset="5760" max-vertical-offset="16872">
-              <caret line="256" column="75" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.53932583" vertical-offset="3240" max-vertical-offset="16872">
+              <caret line="149" column="72" selection-start-line="149" selection-start-column="51" selection-end-line="149" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -91,11 +91,11 @@
         <option value="$PROJECT_DIR$/brainTractography_LesionArea_task2.html" />
         <option value="$PROJECT_DIR$/brainTractography_LesionArea_task3.html" />
         <option value="$PROJECT_DIR$/brainTractography_LesionArea_task4.html" />
-        <option value="$PROJECT_DIR$/task_Type.html" />
-        <option value="$PROJECT_DIR$/brainTractography_FA_task1.html" />
         <option value="$PROJECT_DIR$/brainTractography_FA_task2.html" />
         <option value="$PROJECT_DIR$/brainTractography_FA_task3.html" />
         <option value="$PROJECT_DIR$/brainTractography_FA_task4.html" />
+        <option value="$PROJECT_DIR$/brainTractography_FA_task1.html" />
+        <option value="$PROJECT_DIR$/task_Type.html" />
       </list>
     </option>
   </component>
@@ -200,7 +200,7 @@
       <recent name="C:\Users\Yongnanzhu\Documents\GitHub\davincilab.github.com\js" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.task_Type1.html">
+  <component name="RunManager" selected="JavaScript Debug.task_Type.html">
     <configuration default="false" name="brainTractography_LesionArea_task1.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" uri="http://localhost:63342/davincilab.github.com/brainTractography_LesionArea_task1.html">
       <RunnerSettings RunnerId="JavascriptDebugRunner" />
       <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
@@ -217,6 +217,11 @@
       <method />
     </configuration>
     <configuration default="false" name="task_Type1.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" uri="http://localhost:63342/davincilab.github.com/task_Type1.html">
+      <RunnerSettings RunnerId="JavascriptDebugRunner" />
+      <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="task_Type.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" uri="http://localhost:63342/davincilab.github.com/task_Type.html">
       <RunnerSettings RunnerId="JavascriptDebugRunner" />
       <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
       <method />
@@ -262,18 +267,20 @@
     <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="">
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task1.html" />
       <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task2.html" />
       <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task3.html" />
       <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.task_Type1.html" />
+      <item index="4" class="java.lang.String" itemvalue="JavaScript Debug.task_Type.html" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.task_Type1.html" />
-        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task3.html" />
-        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task2.html" />
-        <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task1.html" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.task_Type.html" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.task_Type1.html" />
+        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task3.html" />
+        <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task2.html" />
+        <item index="4" class="java.lang.String" itemvalue="JavaScript Debug.brainTractography_LesionArea_task1.html" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="JUnit" default="true" selected="false">
@@ -309,7 +316,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -317,18 +324,18 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18904686" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2681081" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26702702" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -349,7 +356,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="13" />
+      <option name="time" value="14" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -654,19 +661,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/task_Type.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2826" max-vertical-offset="3816">
-          <caret line="131" column="64" selection-start-line="131" selection-start-column="17" selection-end-line="131" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/NewGeometryLoader.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1237" max-vertical-offset="2496">
           <caret line="79" column="34" selection-start-line="79" selection-start-column="34" selection-end-line="79" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,7 +672,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4597" max-vertical-offset="7992">
           <caret line="300" column="37" selection-start-line="300" selection-start-column="37" selection-end-line="300" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -682,7 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="84.413795" vertical-offset="5808" max-vertical-offset="16752">
           <caret line="140" column="59" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -690,7 +686,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-24.0" vertical-offset="5760" max-vertical-offset="16848">
           <caret line="269" column="17" selection-start-line="269" selection-start-column="17" selection-end-line="269" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -698,7 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.51724" vertical-offset="5832" max-vertical-offset="16848">
           <caret line="269" column="17" selection-start-line="269" selection-start-column="17" selection-end-line="269" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -706,14 +700,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8" vertical-offset="5760" max-vertical-offset="16848">
           <caret line="269" column="17" selection-start-line="269" selection-start-column="17" selection-end-line="269" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/task_Type.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5634029" vertical-offset="1929" max-vertical-offset="4104">
+          <caret line="95" column="48" selection-start-line="95" selection-start-column="28" selection-end-line="95" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/brainTractography_FA_task1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4413793" vertical-offset="5760" max-vertical-offset="16872">
-          <caret line="256" column="75" selection-start-line="256" selection-start-column="0" selection-end-line="256" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.53932583" vertical-offset="3240" max-vertical-offset="16872">
+          <caret line="149" column="72" selection-start-line="149" selection-start-column="51" selection-end-line="149" selection-end-column="51" />
           <folding />
         </state>
       </provider>
