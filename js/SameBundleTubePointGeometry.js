@@ -54,6 +54,8 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed ) {
     var a, b, c, d,
         uva, uvb, uvc, uvd;
 
+    var cap =[];
+
     var frames = new TubeGeometry.FrenetFrames( this.path, this.segments, this.closed ),
         tangents = frames.tangents,
         normals = frames.normals,
@@ -99,7 +101,13 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed ) {
             pos2.y += cx * normal.y + cy * binormal.y;
             pos2.z += cx * normal.z + cy * binormal.z;
 
+            var pos3 = new THREE.Vector3();
+            pos3.copy(pos2);
             this.grid[ i ][ j ] = vert( pos2.x, pos2.y, pos2.z );
+            if(i===0 || i=== numpoints - 2)
+            {
+                cap.push(pos3);
+            }
 
         }
     }
@@ -109,7 +117,7 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed ) {
 
     for ( i = 0; i < this.segments-1; i++ ) {
 
-        for ( j = 0; j < this.radialSegments; j++ ) {
+        for (j = 0; j < this.radialSegments; j++) {
 
             ip = ( this.closed ) ? (i + 1) % this.segments : i + 1;
             jp = (j + 1) % this.radialSegments;
@@ -119,46 +127,38 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed ) {
             c = this.grid[ ip ][ jp ];
             d = this.grid[ i ][ jp ];
 
-            uva = new THREE.Vector2( i / (this.segments -1), j / this.radialSegments );
-            uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
-            uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
-            uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
+            uva = new THREE.Vector2(i / (this.segments - 1), j / this.radialSegments);
+            uvb = new THREE.Vector2(( i + 1 ) / (this.segments - 1), j / this.radialSegments);
+            uvc = new THREE.Vector2(( i + 1 ) / (this.segments - 1), ( j + 1 ) / this.radialSegments);
+            uvd = new THREE.Vector2(i / (this.segments - 1), ( j + 1 ) / this.radialSegments);
 
-            this.faces.push( new THREE.Face3( a, b, d ) );
-            this.faceVertexUvs[ 0 ].push( [ uva, uvb, uvd ] );
+            this.faces.push(new THREE.Face3(a, b, d));
+            this.faceVertexUvs[ 0 ].push([ uva, uvb, uvd ]);
 
-            this.faces.push( new THREE.Face3( b, c, d ) );
-            this.faceVertexUvs[ 0 ].push( [ uvb.clone(), uvc, uvd.clone() ] );
+            this.faces.push(new THREE.Face3(b, c, d));
+            this.faceVertexUvs[ 0 ].push([ uvb.clone(), uvc, uvd.clone() ]);
 
         }
-        //for the front cap/*
+    }
+    for(i=0; i<cap.length; ++i)
+    {
+        scope.vertices.push(cap[i]);
+    }
+
+    // construct the mesh for the cap
+    {
+        //for the front cap
+        var startp;
+        startp = this.vertices.length - cap.length;
         for( j = 0; j < this.radialSegments-2; j++)
         {
-            //a = this.grid[ 0 ][ 0 ];		// *** NOT NECESSARILY PLANAR ! ***
-            //b = this.grid[ 0 ][ j+1 ];
-            //c = this.grid[ 0][ j+2 ];
-            //To do: need to calcuate the uv
-            //uva = new THREE.Vector2( 0, j / this.radialSegments );
-            //uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
-            //uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
-            //uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
-            //this.faces.push(new THREE.Face3( a, b, c ));
-            this.faces.push(new THREE.Face3( 0, j+1, j+2 ));
 
+            this.faces.push(new THREE.Face3( startp, startp+j+1,startp+j+2 ));
         }
         //for the back cap
 
         for( j = 0; j < this.radialSegments-2; j++)
         {
-            //a = this.grid[ this.segments-1 ][ 0 ];		// *** NOT NECESSARILY PLANAR ! ***
-            //b = this.grid[ this.segments-1 ][ j+1 ];
-            //c = this.grid[ this.segments-1][ j+2 ];
-            //To do: need to calcuate the uv
-            //uva = new THREE.Vector2( 0, j / this.radialSegments );
-            //uvb = new THREE.Vector2( ( i + 1 ) / (this.segments -1), j / this.radialSegments );
-            //uvc = new THREE.Vector2( ( i + 1 ) / (this.segments -1), ( j + 1 ) / this.radialSegments );
-            //uvd = new THREE.Vector2( i / (this.segments -1), ( j + 1 ) / this.radialSegments );
-            //this.faces.push(new THREE.Face3( a, b, c ));
             this.faces.push(new THREE.Face3( this.vertices.length-1, this.vertices.length -j-2,  this.vertices.length -j-3 ));
         }
     }
