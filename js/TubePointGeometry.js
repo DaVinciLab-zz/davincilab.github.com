@@ -180,10 +180,7 @@ TubeGeometry = function( path, segments, radius, radialSegments, closed, vertexC
             faceIdx++;
         }
     }
-    function computeColorMaxmin()
-    {
 
-    }
     this.computeCentroids();
     this.computeFaceNormals();
     this.computeVertexNormals();
@@ -337,7 +334,7 @@ TubeGeometry.FrenetFrames = function(path, segments, closed) {
 
         }
 
-        for ( i = 1; i < numpoints-1; i++ ) {
+        for ( i = 1; i < numpoints; i++ ) {
 
             // twist a little...
             normals[ i ].applyMatrix4( mat.makeRotationAxis( tangents[ i ], theta * i ) );

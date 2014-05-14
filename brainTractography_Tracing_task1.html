@@ -375,7 +375,6 @@ function init() {
                             mesh.position.z = loaderbox3.center.z ;
                             //group.add(mesh);
                             mainGroup.add(mesh);
-                            mainGroup.add(mesh);
                             {//create the wireframe
                                 var verticeGeo = new THREE.Geometry();
                                 var vertices =  geometry.vertices;
@@ -650,9 +649,9 @@ function makeTextSprite( message, parameters )
     texture.needsUpdate = true;
 
     var spriteMaterial = new THREE.SpriteMaterial(
-            { map: texture, useScreenCoordinates: false} );
+            { map: texture} );
     var sprite = new THREE.Sprite( spriteMaterial );
-    sprite.scale.set(35,35,35.0);
+    sprite.scale.set(35,35,35);
     return sprite;
 }
 
