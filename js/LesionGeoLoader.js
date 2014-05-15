@@ -127,7 +127,7 @@ GeometryLoader.prototype = {
                 );
                 geometry.uuid = i;
                 //material = new THREE.MeshPhongMaterial({vertexColors: THREE.VertexColors});
-                material = new THREE.MeshPhongMaterial();
+                material = new THREE.MeshPhongMaterial({color: '#D2CFCD'});
                 //material = new THREE.MeshNormalMaterial();
                 mesh = new THREE.Mesh( geometry, material );
 

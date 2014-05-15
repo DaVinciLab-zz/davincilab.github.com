@@ -144,13 +144,13 @@
         scene = new THREE.Scene();
 
         var light;
-        light = new THREE.DirectionalLight( 0xffeedd );
+        light = new THREE.DirectionalLight( 0xcfccc9 );
         light.position.set( 0, 0, 200 );
         scene.add( light );
-        light = new THREE.DirectionalLight( 0xffeedd );
+        light = new THREE.DirectionalLight( 0xcfccc9 );
         light.position.set( -200, 0, 0 );
         scene.add( light );
-        light = new THREE.DirectionalLight( 0xffeedd );
+        light = new THREE.DirectionalLight( 0xcfccc9 );
         light.position.set( 0, 200, 0 );
         scene.add( light );
 
@@ -200,8 +200,8 @@
         var modelPath = './data/combine/s2.data';
 
         //Tumor area
-        var material = new THREE.MeshNormalMaterial();
-        //var material = new THREE.MeshPhongMaterial();
+        //var material = new THREE.MeshNormalMaterial();
+        var material = new THREE.MeshPhongMaterial( {  color: '#ff0000',shininess: 50, ambient: '#000000'}  );
         var sphereGeometry = new THREE.SphereGeometry(6, 32, 16);
         var tumor = new THREE.Mesh( sphereGeometry, material );
         var tumorPositionx = -24;
